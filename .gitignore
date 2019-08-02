@@ -1,4 +1,7 @@
 .vscode
+bin
 main
 .attach_*
 *.o
+*.dat
+*.log

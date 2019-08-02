@@ -401,7 +401,6 @@ public:
 			return;
 		}
 
-		std::vector<TreeNode*> vsize;
 
 		for (TreeNode *cur = this->root;;)
 		{
@@ -416,8 +415,7 @@ public:
 				}
 			}
 
-			// cur->size++;
-			vsize.push_back(cur);
+			cur->size++;
 
 			int c = this->compare(key, cur->key);
 			if (c < 0)
@@ -427,10 +425,6 @@ public:
 					TreeNode *node = new TreeNode();
 					node->key = key;
 					node->value = value;
-
-					for (auto iter = vsize.begin(); iter != vsize.end();iter++) {
-						(*iter)->size ++ ;
-					}
 
 					cur->children[0] = node;
 					node->parent = cur;
@@ -450,17 +444,13 @@ public:
 				}
 				cur = cur->children[0];
 			}
-			else if (c > 0)
+			else  
 			{
 				if (cur->children[1] == NULL)
 				{
 					TreeNode *node = new TreeNode();
 					node->key = key;
 					node->value = value;
-
-					for (auto iter = vsize.begin(); iter != vsize.end();iter++) {
-						(*iter)->size ++ ;
-					}
 
 					cur->children[1] = node;
 					node->parent = cur;
@@ -480,13 +470,10 @@ public:
 				}
 				cur = cur->children[1];
 			}
-			else
-			{
-				cur->key = key;
-				cur->value = value;
-				return;
-			}
 		}
+
+		cout << "错误" << endl;
+		return ;
 	};
 
 	/* data */
