@@ -139,6 +139,25 @@ private:
 		cur->size = getChildrenSumSize(cur) + 1;
 	}
 
+	template<int l, int r>
+	void xxrotate3(TreeNode *cur) { //
+		TreeNode *movparent = cur->children[l];
+		TreeNode *mov = movparent->children[r];
+
+		this->swap_node_kv(mov, cur);
+
+		cur->children[r] = mov;
+		mov->parent = cur;
+
+		cur->children[l] = movparent;
+		movparent->children[r] = NULL;
+
+		cur->children[r] = mov;
+		mov->parent = cur;
+
+		cur->children[l]->size = 1;
+	}
+
 	void rlrotate3(TreeNode *cur)
 	{
 		const int l = 0;
@@ -159,6 +178,50 @@ private:
 		mov->parent = cur;
 
 		cur->children[l]->size = 1;
+	}
+
+	template<int l, int r>
+	void xxrotate(TreeNode *cur) {
+		TreeNode *movparent = cur->children[l];
+		TreeNode *mov = movparent->children[r];
+
+		this->swap_node_kv(mov, cur);
+
+		if (mov->children[l] != NULL)
+		{
+			movparent->children[r] = mov->children[l];
+			movparent->children[r]->parent = movparent;
+		}
+		else
+		{
+			movparent->children[r] = NULL;
+		}
+
+		if (mov->children[r] != NULL)
+		{
+			mov->children[l] = mov->children[r];
+		}
+		else
+		{
+			mov->children[l] = NULL;
+		}
+
+		if (cur->children[r] != NULL)
+		{
+			mov->children[r] = cur->children[r];
+			mov->children[r]->parent = mov;
+		}
+		else
+		{
+			mov->children[r] = NULL;
+		}
+
+		cur->children[r] = mov;
+		mov->parent = cur;
+
+		movparent->size = this->getChildrenSumSize(movparent) + 1;
+		mov->size = this->getChildrenSumSize(mov) + 1;
+		cur->size = this->getChildrenSumSize(cur) + 1;
 	}
 
 	void rlrotate(TreeNode *cur)
@@ -208,10 +271,26 @@ private:
 		cur->size = this->getChildrenSumSize(cur) + 1;
 	}
 
-	void rrotate3(TreeNode *cur)
-	{
-		const int l = 0;
-		const int r = 1;
+	template<int l, int r>
+	void xrotate3(TreeNode *cur) {
+		TreeNode *mov = cur->children[l];
+
+		this->swap_node_kv(mov, cur);
+
+		cur->children[r] = mov;
+
+		cur->children[l] = mov->children[l];
+		cur->children[l]->parent = cur;
+
+		mov->children[l] = NULL;
+
+		mov->size = 1;		
+	}
+
+	void rrotate3(TreeNode *cur) // 0
+	{ 
+		const int l = 0; 
+		const int r = 1; 
 		// 1 right 0 left
 		TreeNode *mov = cur->children[l];
 
@@ -225,6 +304,45 @@ private:
 		mov->children[l] = NULL;
 
 		mov->size = 1;
+	}
+
+	template<int l, int r>
+	void xrotate(TreeNode *cur) {
+		// 1 right 0 left
+		TreeNode *mov = cur->children[l];
+
+		this->swap_node_kv(mov, cur);
+
+		//  mov->children[l]不可能为nil
+		mov->children[l]->parent = cur;
+
+		cur->children[l] = mov->children[l];
+
+		// 解决mov节点孩子转移的问题
+		if (mov->children[r] != NULL)
+		{
+			mov->children[l] = mov->children[r];
+		}
+		else
+		{
+			mov->children[l] = NULL;
+		}
+
+		if (cur->children[r] != NULL)
+		{
+			mov->children[r] = cur->children[r];
+			mov->children[r]->parent = mov;
+		}
+		else
+		{
+			mov->children[r] = NULL;
+		}
+
+		// 连接转移后的节点 由于mov只是与cur交换值,parent不变
+		cur->children[r] = mov;
+
+		mov->size = getChildrenSumSize(mov) + 1;
+		cur->size = getChildrenSumSize(cur) + 1;		
 	}
 
 	void rrotate(TreeNode *cur)
@@ -339,11 +457,13 @@ private:
 			ULONG lrsize = std::get<1>(lllr);
 			if (lrsize > llsize)
 			{
-				this->rlrotate(cur);
+				this->xxrotate<0, 1>(cur);
+				// this->rlrotate(cur);
 			}
 			else
 			{
-				this->rrotate(cur);
+				this->xrotate<0, 1>(cur);
+				// this->rrotate(cur);
 			}
 		}
 		else
@@ -353,11 +473,13 @@ private:
 			ULONG rrsize = std::get<1>(rlrr);
 			if (rlsize > rrsize)
 			{
-				this->lrrotate(cur);
+				this->xxrotate<1, 0>(cur);
+				// this->lrrotate(cur);
 			}
 			else
 			{
-				this->lrotate(cur);
+				this->xrotate<1, 0>(cur);
+				// this->lrotate(cur);
 			}
 		}
 	}
@@ -433,11 +555,13 @@ public:
 					{
 						if (cur->parent->children[0] == NULL)
 						{
-							this->lrrotate3(cur->parent);
+							this->xxrotate3<1, 0>(cur->parent);
+							// this->lrrotate3(cur->parent);
 						}
 						else
 						{
-							this->rrotate3(cur->parent);
+							this->xrotate3<0, 1>(cur->parent);
+							// this->rrotate3(cur->parent);
 						}
 					}
 					return;
@@ -459,11 +583,13 @@ public:
 					{
 						if (cur->parent->children[1] == NULL)
 						{
-							this->rlrotate3(cur->parent);
+							this->xxrotate3<0, 1>(cur->parent);
+							// this->rlrotate3(cur->parent);
 						}
 						else
 						{
-							this->lrotate3(cur->parent);
+							this->xrotate3<1, 0>(cur->parent);
+							// this->lrotate3(cur->parent);
 						}
 					}
 					return;
