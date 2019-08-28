@@ -1,5 +1,5 @@
 CC		:= g++
-C_FLAGS := -std=c++17 -Wall -Wextra -g -O2
+C_FLAGS := -std=c++17 -Wall -Wextra -g -O2 -Wno-unused-parameter -Wno-unused-function
 
 BIN		:= bin
 SRC		:= src

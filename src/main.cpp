@@ -6,12 +6,13 @@
 #include <string>
 #include <map>
 #include <random>
+#include "skiplist/skiplist.h"
 
 using namespace std;
 using chrono::high_resolution_clock;
 using std::string;
 
-int IntCompare(int v1, int v2) {
+int IntCompare(ULONG v1, ULONG v2) {
   if (v1 > v2) {
     return 1;
   } else if (v1 < v2) {
@@ -23,7 +24,7 @@ int IntCompare(int v1, int v2) {
 
 const ULONG N = 5000000;
 
-vector<unsigned int> vec;
+vector<ULONG> vec;
 map<string, void (*)()> funcmap ;
 
 void init() {
@@ -49,10 +50,7 @@ void init() {
 }
 
 void Case1() {
-  std::map<int, int> m;
-
-  default_random_engine e;
-  std::uniform_int_distribution<> dist{0, 1000000000};
+  std::map<ULONG, ULONG> m;
 
   high_resolution_clock::time_point t1 =
       high_resolution_clock::now(); //返回时间戳
@@ -64,7 +62,7 @@ void Case1() {
   high_resolution_clock::time_point t2 =
       high_resolution_clock::now(); //返回时间戳
 
-  std::cout << (t2 - t1).count() / N << std::endl;
+  std::cout << (t2 - t1).count() / N << " ns/op" << std::endl;
   std::cout << "end RBTree Case <Put> Benchmark" << std::endl;
 
 
@@ -72,10 +70,7 @@ void Case1() {
 }
 
 void Case1_1() {
-  std::map<int, int> m;
-
-  default_random_engine e;
-  std::uniform_int_distribution<> dist{0, 1000000000};
+  std::map<ULONG, ULONG> m;
 
   for (ULONG i = 0; i < N; i++) {
     auto v = vec[i];
@@ -92,12 +87,12 @@ void Case1_1() {
   high_resolution_clock::time_point t2 =
       high_resolution_clock::now(); //返回时间戳
 
-  std::cout << (t2 - t1).count() / N << std::endl;
+  std::cout << (t2 - t1).count() / N << " ns/op" << std::endl;
   std::cout << "end RBTree Case <Get> Benchmark" << std::endl;
 }
 
 void Case2() {
-  VBTree<int, int> m(IntCompare);
+  VBTree<ULONG, ULONG> m(IntCompare);
 
   high_resolution_clock::time_point t1 =
       high_resolution_clock::now(); //返回时间戳
@@ -108,15 +103,12 @@ void Case2() {
   high_resolution_clock::time_point t2 =
       high_resolution_clock::now(); //返回时间戳
 
-  std::cout << (t2 - t1).count() / N << std::endl;
+  std::cout << (t2 - t1).count() / N << " ns/op" << std::endl;
   std::cout << "end VBTree Case <Put> Benchmark" << std::endl;
 }
 
 void Case2_1() {
-  VBTree<int, int> m(IntCompare);
-
-  default_random_engine e;
-  std::uniform_int_distribution<> dist{0, 1000000000};
+  VBTree<ULONG, ULONG> m(IntCompare);
 
   for (ULONG i = 0; i < N; i++) {
     auto v = vec[i];
@@ -133,15 +125,12 @@ void Case2_1() {
   high_resolution_clock::time_point t2 =
       high_resolution_clock::now(); //返回时间戳
 
-  std::cout << (t2 - t1).count() / N << std::endl;
+  std::cout << (t2 - t1).count() / N << " ns/op" << std::endl;
   std::cout << "end VBTree Case <Get> Benchmark" << std::endl;
 }
 
 void Case3() {
   BinaryTree tree;
-
-  default_random_engine e;
-  std::uniform_int_distribution<> dist{0, 1000000000};
 
   high_resolution_clock::time_point t1 =
       high_resolution_clock::now(); //返回时间戳
@@ -153,9 +142,74 @@ void Case3() {
   high_resolution_clock::time_point t2 =
       high_resolution_clock::now(); //返回时间戳
 
-  std::cout << (t2 - t1).count() / N << std::endl;
+  std::cout << (t2 - t1).count() / N << " ns/op" << std::endl;
   std::cout << "end SBT Case <Put> Benchmark" << std::endl;
 }
+
+void Case3_1() {
+  BinaryTree tree;
+
+  for (ULONG i = 0; i < N; i++) {
+    auto v = vec[i];
+    tree.insert(v);
+  }
+
+  high_resolution_clock::time_point t1 =
+      high_resolution_clock::now(); //返回时间戳
+
+  for (auto iter = vec.begin(); iter != vec.end(); iter++) {
+    tree.find(*iter);
+  }
+
+  high_resolution_clock::time_point t2 =
+      high_resolution_clock::now(); //返回时间戳
+
+  std::cout << (t2 - t1).count() / N << " ns/op" << std::endl;
+  std::cout << "end SBT Case <find(Get)> Benchmark" << std::endl;
+}
+
+void Case4() {
+  struct skiplist *list = skiplist_new();
+
+  high_resolution_clock::time_point t1 =
+      high_resolution_clock::now(); //返回时间戳
+
+  for (ULONG i = 0; i < N; i++) {
+    auto v = vec[i];
+    skiplist_insert(list, v, v);
+  }
+  high_resolution_clock::time_point t2 =
+      high_resolution_clock::now(); //返回时间戳
+
+  std::cout << (t2 - t1).count() / N << " ns/op" << std::endl;
+  std::cout << "end SkipList Case <insert(Put)> Benchmark" << std::endl;
+}
+
+void Case4_1() {
+  struct skiplist *list = skiplist_new();
+
+  for (ULONG i = 0; i < N; i++) {
+    auto v = vec[i];
+    skiplist_insert(list, v, v);
+  }
+
+
+  high_resolution_clock::time_point t1 =
+      high_resolution_clock::now(); //返回时间戳
+
+  for (auto iter = vec.begin(); iter != vec.end(); iter++) {
+    skiplist_search(list, *iter);
+  }
+
+  high_resolution_clock::time_point t2 =
+      high_resolution_clock::now(); //返回时间戳
+
+
+  std::cout << (t2 - t1).count() / N << " ns/op" << std::endl;
+  std::cout << "end SkipList Case <search(Get)> Benchmark" << std::endl;
+}
+
+
 
 int main(int argc, char *argv[]) {
   init();
@@ -167,8 +221,13 @@ int main(int argc, char *argv[]) {
   funcmap["2_1"] = Case2_1;
 
   funcmap["3"] = Case3;
+  funcmap["3_1"] = Case3_1;
 
-  cout << argv[1] << endl;
+  funcmap["4"] = Case4;
+  funcmap["4_1"] = Case4_1;
+  
+  cout << endl;
+  cout << "case: " << argv[1] << endl;
   string fname = argv[1];
   funcmap[fname]();
 }
