@@ -1,3 +1,4 @@
+#! /bin/bash
 make clean all
 ./bin/main 1
 ./bin/main 1_1
