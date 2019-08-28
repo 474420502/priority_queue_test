@@ -30,6 +30,8 @@
 
 ---
 
+## 测试结果
+
 ``` bash
 rm -f bin/main
 g++ -std=c++17 -Wall -Wextra -g -O2 -Wno-unused-parameter -Wno-unused-function -Iinclude -Llib src/sbt.h src/vbtree.h src/main.cpp -o bin/main
@@ -67,7 +69,7 @@ end SBT Case <Put> Benchmark
 vec.dat 加载...
 
 case: 3_1
-675 ns/op
+955 ns/op
 end SBT Case <find(Get)> Benchmark
 基于5000000数据量的测试
 vec.dat 加载...
@@ -83,3 +85,8 @@ case: 4_1
 end SkipList Case <search(Get)> Benchmark
 ```
 
+* skiplist 效果并不如所述的理想. 只是在并行处理上有巨大的优势.
+
+* 实际优先队列的选择上我更推荐平衡树带Size属性的实现.
+  
+* SBT浮动有点大, 不明白为什么.可能有更好实现
