@@ -94,6 +94,6 @@ end SkipList Case <search(Get)> Benchmark
 
 * skiplist 效果并不如所述的理想. 只是在并行处理上有巨大的优势.
 
-* 实际优先队列的选择上我更推荐平衡树带Size属性的实现. 这里有一个go的实现 <https://github.com/474420502/focus.>
+* 实际优先队列的选择上我更推荐平衡树带Size属性的实现. 这里有一个go的实现 <https://github.com/474420502/focus>
   
 * SBT浮动有点大, 不明白为什么.可能有更好实现
