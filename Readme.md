@@ -33,55 +33,59 @@
 ## 测试结果
 
 ``` bash
+sh run.sh
+```
+
+``` bash
 rm -f bin/main
-g++ -std=c++17 -Wall -Wextra -g -O2 -Wno-unused-parameter -Wno-unused-function -Iinclude -Llib src/sbt.h src/vbtree.h src/main.cpp -o bin/main
-基于5000000数据量的测试
-vec.dat 加载...
+g++ -std=c++17 -Wall -Wextra -g -O2 -Wno-unused-parameter -Wno-unused-function -Wno-sign-compare -Wno-maybe-uninitialized -Iinclude -Llib src/sbt.h src/vbtree.h src/main.cpp -o bin/main 
+base on 5000000 data
+vec.dat loading...
 
 case: 1
-792 ns/op
+775 ns/op
 end RBTree Case <Put> Benchmark
-基于5000000数据量的测试
-vec.dat 加载...
+base on 5000000 data
+vec.dat loading...
 
 case: 1_1
-747 ns/op
+728 ns/op
 end RBTree Case <Get> Benchmark
-基于5000000数据量的测试
-vec.dat 加载...
+base on 5000000 data
+vec.dat loading...
 
 case: 2
-688 ns/op
+701 ns/op
 end VBTree Case <Put> Benchmark
-基于5000000数据量的测试
-vec.dat 加载...
+base on 5000000 data
+vec.dat loading...
 
 case: 2_1
-706 ns/op
+670 ns/op
 end VBTree Case <Get> Benchmark
-基于5000000数据量的测试
-vec.dat 加载...
+base on 5000000 data
+vec.dat loading...
 
 case: 3
-1029 ns/op
+1001 ns/op
 end SBT Case <Put> Benchmark
-基于5000000数据量的测试
-vec.dat 加载...
+base on 5000000 data
+vec.dat loading...
 
 case: 3_1
-955 ns/op
+652 ns/op
 end SBT Case <find(Get)> Benchmark
-基于5000000数据量的测试
-vec.dat 加载...
+base on 5000000 data
+vec.dat loading...
 
 case: 4
-1455 ns/op
+1344 ns/op
 end SkipList Case <insert(Put)> Benchmark
-基于5000000数据量的测试
-vec.dat 加载...
+base on 5000000 data
+vec.dat loading...
 
 case: 4_1
-1451 ns/op
+1440 ns/op
 end SkipList Case <search(Get)> Benchmark
 ```
 

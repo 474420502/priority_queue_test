@@ -28,11 +28,11 @@ vector<ULONG> vec;
 map<string, void (*)()> funcmap ;
 
 void init() {
-  cout << "基于" << N << "数据量的测试" << endl;
+  cout << "base on " << N << " data" << endl;
   const char *fpath = "./vec.dat";
   std::ifstream inf(fpath);
   if (!inf.is_open()) {
-    cout << "vec.dat不存在, 初始化生成随机数据" << endl;
+    cout << "vec.dat is not exists, create random data" << endl;
     std::ofstream openfile(fpath, ios::binary | ios::trunc);
     default_random_engine e;
     std::uniform_int_distribution<> dist{0, 1000000000};
@@ -45,7 +45,7 @@ void init() {
     inf.open(fpath);
   }
   
-  cout << "vec.dat 加载..." << endl;
+  cout << "vec.dat loading..." << endl;
   for(;!inf.eof();) {
     int v;
     inf >> v;
