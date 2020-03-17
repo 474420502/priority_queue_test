@@ -33,7 +33,8 @@
 ## 测试结果
 
 ``` bash
-sh run.sh
+git submodule update #更新子模块
+sh run.sh #运行测试
 ```
 
 ``` bash
