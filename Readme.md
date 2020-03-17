@@ -33,6 +33,7 @@
 ## 测试结果
 
 ``` bash
+git submodule init #初始化模块
 git submodule update #更新子模块
 sh run.sh #运行测试
 ```
