@@ -56,7 +56,7 @@ private:
 		return make_tuple(this->getSize(cur->children[0]), this->getSize(cur->children[1]));
 	}
 
-	void swap_node_kv(TreeNode *n1, TreeNode *n2)
+	void swapNodeKV(TreeNode *n1, TreeNode *n2)
 	{
 		TKey tempkey = n1->key;
 		TValue tempvalue = n1->value;
@@ -73,7 +73,7 @@ private:
 		TreeNode *movparent = cur->children[l];
 		TreeNode *mov = movparent->children[r];
 
-		this->swap_node_kv(mov, cur);
+		this->swapNodeKV(mov, cur);
 
 		cur->children[r] = mov;
 		mov->parent = cur;
@@ -95,7 +95,7 @@ private:
 		TreeNode *movparent = cur->children[l];
 		TreeNode *mov = movparent->children[r];
 
-		this->swap_node_kv(mov, cur);
+		this->swapNodeKV(mov, cur);
 
 		cur->children[r] = mov;
 		mov->parent = cur;
@@ -114,7 +114,7 @@ private:
 		TreeNode *movparent = cur->children[l];
 		TreeNode *mov = movparent->children[r];
 
-		this->swap_node_kv(mov, cur);
+		this->swapNodeKV(mov, cur);
 
 		if (mov->children[l] != NULL)
 		{
@@ -157,7 +157,7 @@ private:
 	void xrotate3(TreeNode *cur) {
 		TreeNode *mov = cur->children[l];
 
-		this->swap_node_kv(mov, cur);
+		this->swapNodeKV(mov, cur);
 
 		cur->children[r] = mov;
 
@@ -176,7 +176,7 @@ private:
 		// 1 right 0 left
 		TreeNode *mov = cur->children[l];
 
-		this->swap_node_kv(mov, cur);
+		this->swapNodeKV(mov, cur);
 
 		cur->children[r] = mov;
 
@@ -193,7 +193,7 @@ private:
 		// 1 right 0 left
 		TreeNode *mov = cur->children[l];
 
-		this->swap_node_kv(mov, cur);
+		this->swapNodeKV(mov, cur);
 
 		//  mov->children[l]不可能为nil
 		mov->children[l]->parent = cur;
