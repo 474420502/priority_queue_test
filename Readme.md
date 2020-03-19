@@ -42,53 +42,127 @@ sh run.sh #运行测试
 ``` bash
 rm -f bin/main
 g++ -std=c++17 -Wall -Wextra -g -O2 -Wno-unused-parameter -Wno-unused-function -Wno-sign-compare -Wno-maybe-uninitialized -Iinclude -Llib src/sbt.h src/vbtree.h src/main.cpp -o bin/main 
+base on 500 data
+vec.dat is not exists, create random data
+vec.dat loading...
+base on 50000 data
+vec.dat is not exists, create random data
+vec.dat loading...
 base on 5000000 data
+vec.dat is not exists, create random data
 vec.dat loading...
 
 case: 1
-775 ns/op
+size: 500, 116 ns/op
 end RBTree Case <Put> Benchmark
+size: 50000, 267 ns/op
+end RBTree Case <Put> Benchmark
+size: 5000000, 788 ns/op
+end RBTree Case <Put> Benchmark
+
+base on 500 data
+vec.dat loading...
+base on 50000 data
+vec.dat loading...
 base on 5000000 data
 vec.dat loading...
 
 case: 1_1
-728 ns/op
+size: 500, 51 ns/op
 end RBTree Case <Get> Benchmark
+size: 50000, 152 ns/op
+end RBTree Case <Get> Benchmark
+size: 5000000, 751 ns/op
+end RBTree Case <Get> Benchmark
+
+base on 500 data
+vec.dat loading...
+base on 50000 data
+vec.dat loading...
 base on 5000000 data
 vec.dat loading...
 
 case: 2
-701 ns/op
+size: 500, 103 ns/op
 end VBTree Case <Put> Benchmark
+size: 50000, 246 ns/op
+end VBTree Case <Put> Benchmark
+size: 5000000, 688 ns/op
+end VBTree Case <Put> Benchmark
+
+base on 500 data
+vec.dat loading...
+base on 50000 data
+vec.dat loading...
 base on 5000000 data
 vec.dat loading...
 
 case: 2_1
-670 ns/op
+size: 500, 46 ns/op
 end VBTree Case <Get> Benchmark
+size: 50000, 153 ns/op
+end VBTree Case <Get> Benchmark
+size: 5000000, 654 ns/op
+end VBTree Case <Get> Benchmark
+
+base on 500 data
+vec.dat loading...
+base on 50000 data
+vec.dat loading...
 base on 5000000 data
 vec.dat loading...
 
 case: 3
-1001 ns/op
+size: 500, 223 ns/op
 end SBT Case <Put> Benchmark
+size: 50000, 272 ns/op
+end SBT Case <Put> Benchmark
+size: 5000000, 966 ns/op
+end SBT Case <Put> Benchmark
+
+base on 500 data
+vec.dat loading...
+base on 50000 data
+vec.dat loading...
 base on 5000000 data
 vec.dat loading...
 
 case: 3_1
-652 ns/op
+size: 500, 36 ns/op
 end SBT Case <find(Get)> Benchmark
+size: 50000, 117 ns/op
+end SBT Case <find(Get)> Benchmark
+size: 5000000, 643 ns/op
+end SBT Case <find(Get)> Benchmark
+
+base on 500 data
+vec.dat loading...
+base on 50000 data
+vec.dat loading...
 base on 5000000 data
 vec.dat loading...
 
 case: 4
-1344 ns/op
+size: 500, 158 ns/op
 end SkipList Case <insert(Put)> Benchmark
+size: 50000, 269 ns/op
+end SkipList Case <insert(Put)> Benchmark
+size: 5000000, 1275 ns/op
+end SkipList Case <insert(Put)> Benchmark
+
+base on 500 data
+vec.dat loading...
+base on 50000 data
+vec.dat loading...
 base on 5000000 data
 vec.dat loading...
 
 case: 4_1
-1440 ns/op
+size: 500, 51 ns/op
+end SkipList Case <search(Get)> Benchmark
+size: 50000, 244 ns/op
+end SkipList Case <search(Get)> Benchmark
+size: 5000000, 1348 ns/op
 end SkipList Case <search(Get)> Benchmark
 ```
 
@@ -97,3 +171,4 @@ end SkipList Case <search(Get)> Benchmark
 * 实际优先队列的选择上我更推荐平衡树带Size属性的实现. 这里有一个go的实现 <https://github.com/474420502/focus>
   
 * SBT浮动有点大, 不明白为什么.可能有更好实现
+  
