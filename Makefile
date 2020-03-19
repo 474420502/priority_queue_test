@@ -1,5 +1,5 @@
 CC		:= g++
-C_FLAGS := -std=c++17 -Wall -Wextra -g -O2 -Wno-unused-parameter -Wno-unused-function -Wno-sign-compare -Wno-maybe-uninitialized
+C_FLAGS := -std=c++17 -fpermissive -Wno-permissive -g -O2 -Wno-unused-parameter -Wno-unused-function -Wno-sign-compare -Wno-maybe-uninitialized
 
 BIN		:= bin
 SRC		:= src
@@ -8,13 +8,14 @@ LIB		:= lib
 
 LIBRARIES	:=
 
+
 ifeq ($(OS),Windows_NT)
 EXECUTABLE	:= main.exe
 else
 EXECUTABLE	:= main
 endif
 
-all: $(BIN)/$(EXECUTABLE)
+all: $(BIN)/$(EXECUTABLE) 
 
 clean:
 	$(RM) $(BIN)/$(EXECUTABLE)
