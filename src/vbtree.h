@@ -307,10 +307,10 @@ public:
 		{
 			if (cur->size > 8)
 			{
-				unsigned long factor = cur->size / 10;
+				unsigned long factor = cur->size >> 3; // 原来是/10 为了简化为位运算/8　
 				unsigned long ls = cur->children[0]->size;
 				unsigned long rs = cur->children[1]->size;
-				if (rs >= ls * 2 + factor || ls >= rs * 2 + factor)
+				if (rs >= (ls << 1) + factor || ls >= (rs << 1) + factor) // ls rs * 2 
 				{
 					this->fixSize(cur, ls, rs);
 				}

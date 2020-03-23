@@ -29,6 +29,24 @@
   
 > 简称[VBT] 这个树是我根据宽度平衡的一些构想并实现, 我在实现这个树结构的时候,完全不知道SBT的存在(知道我不会写了). 通过大量的结果测试, 写出由一个平衡因子作旋转的平衡树, 具体以后再写. 实测性能不输RBTree(红黑), AVLTree, SBT SkipList并且有 SBT等同的属性. 在一些特殊倾斜的数据集会略输. 后面我想用vbt代替skiplist实现一个可以并行处理的顺序写简单例子(工作不忙的前提下).
 
+* Put
+  
+|测试名\数据量 | 500   | 50000 | 5000000 |
+|  ----      | ----  | ----  |   ----  |
+| rbtree     |  117  |  252  |   770   |
+| vbt        |  100  |  262  |   682   |
+| sbt        |  144  |  290  |   987   |
+| skiplist   |  141  |  290  |   1283  |
+
+* Get
+  
+|测试名\数据量 | 500   | 50000 | 5000000 |
+|  ----      | ----  | ----  |   ----  |
+| rbtree     |  46   |  143  |   702   |
+| vbt        |  49   |  157  |   679   |
+| sbt        |  40   |  128  |   661   |
+| skiplist   |  52   |  247  |   1366  |
+
 ---
 
 ## 测试结果
@@ -53,11 +71,11 @@ vec.dat is not exists, create random data
 vec.dat loading...
 
 case: 1
-size: 500, 116 ns/op
+size: 500, 117 ns/op
 end RBTree Case <Put> Benchmark
-size: 50000, 267 ns/op
+size: 50000, 252 ns/op
 end RBTree Case <Put> Benchmark
-size: 5000000, 788 ns/op
+size: 5000000, 770 ns/op
 end RBTree Case <Put> Benchmark
 
 base on 500 data
@@ -68,11 +86,11 @@ base on 5000000 data
 vec.dat loading...
 
 case: 1_1
-size: 500, 51 ns/op
+size: 500, 46 ns/op
 end RBTree Case <Get> Benchmark
-size: 50000, 152 ns/op
+size: 50000, 143 ns/op
 end RBTree Case <Get> Benchmark
-size: 5000000, 751 ns/op
+size: 5000000, 702 ns/op
 end RBTree Case <Get> Benchmark
 
 base on 500 data
@@ -83,11 +101,11 @@ base on 5000000 data
 vec.dat loading...
 
 case: 2
-size: 500, 103 ns/op
+size: 500, 100 ns/op
 end VBTree Case <Put> Benchmark
-size: 50000, 246 ns/op
+size: 50000, 262 ns/op
 end VBTree Case <Put> Benchmark
-size: 5000000, 688 ns/op
+size: 5000000, 682 ns/op
 end VBTree Case <Put> Benchmark
 
 base on 500 data
@@ -98,11 +116,11 @@ base on 5000000 data
 vec.dat loading...
 
 case: 2_1
-size: 500, 46 ns/op
+size: 500, 49 ns/op
 end VBTree Case <Get> Benchmark
-size: 50000, 153 ns/op
+size: 50000, 157 ns/op
 end VBTree Case <Get> Benchmark
-size: 5000000, 654 ns/op
+size: 5000000, 679 ns/op
 end VBTree Case <Get> Benchmark
 
 base on 500 data
@@ -113,11 +131,11 @@ base on 5000000 data
 vec.dat loading...
 
 case: 3
-size: 500, 223 ns/op
+size: 500, 144 ns/op
 end SBT Case <Put> Benchmark
-size: 50000, 272 ns/op
+size: 50000, 290 ns/op
 end SBT Case <Put> Benchmark
-size: 5000000, 966 ns/op
+size: 5000000, 987 ns/op
 end SBT Case <Put> Benchmark
 
 base on 500 data
@@ -128,11 +146,11 @@ base on 5000000 data
 vec.dat loading...
 
 case: 3_1
-size: 500, 36 ns/op
+size: 500, 40 ns/op
 end SBT Case <find(Get)> Benchmark
-size: 50000, 117 ns/op
+size: 50000, 128 ns/op
 end SBT Case <find(Get)> Benchmark
-size: 5000000, 643 ns/op
+size: 5000000, 661 ns/op
 end SBT Case <find(Get)> Benchmark
 
 base on 500 data
@@ -143,11 +161,11 @@ base on 5000000 data
 vec.dat loading...
 
 case: 4
-size: 500, 158 ns/op
+size: 500, 141 ns/op
 end SkipList Case <insert(Put)> Benchmark
-size: 50000, 269 ns/op
+size: 50000, 290 ns/op
 end SkipList Case <insert(Put)> Benchmark
-size: 5000000, 1275 ns/op
+size: 5000000, 1283 ns/op
 end SkipList Case <insert(Put)> Benchmark
 
 base on 500 data
@@ -158,11 +176,11 @@ base on 5000000 data
 vec.dat loading...
 
 case: 4_1
-size: 500, 51 ns/op
+size: 500, 52 ns/op
 end SkipList Case <search(Get)> Benchmark
-size: 50000, 244 ns/op
+size: 50000, 247 ns/op
 end SkipList Case <search(Get)> Benchmark
-size: 5000000, 1348 ns/op
+size: 5000000, 1366 ns/op
 end SkipList Case <search(Get)> Benchmark
 ```
 
