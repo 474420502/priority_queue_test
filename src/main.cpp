@@ -1,6 +1,6 @@
 
 #include "sbt.h"
-#include "vbtree.h"
+#include "vbtree.hpp"
 #include <chrono>
 #include <fstream>
 #include <iostream>
@@ -13,22 +13,6 @@
 using namespace std;
 using chrono::high_resolution_clock;
 using std::string;
-
-int IntCompare(ULONG v1, ULONG v2)
-{
-  if (v1 > v2)
-  {
-    return 1;
-  }
-  else if (v1 < v2)
-  {
-    return -1;
-  }
-  else
-  {
-    return 0;
-  }
-}
 
 
 vector<ULONG> vec500, vec50000, vec5000000;
@@ -146,7 +130,7 @@ void Case2()
   {
     vector<ULONG> vec = vecs[i];
 
-    VBTree<ULONG, ULONG> m(IntCompare);
+    VBTree<ULONG, ULONG> m;
 
     high_resolution_clock::time_point t1 =
         high_resolution_clock::now(); //返回时间戳
@@ -172,7 +156,7 @@ void Case2_1()
   {
     vector<ULONG> vec = vecs[i];
 
-    VBTree<ULONG, ULONG> m(IntCompare);
+    VBTree<ULONG, ULONG> m;
 
     for (ULONG i = 0; i < vec.size(); i++)
     {
