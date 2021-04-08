@@ -110,7 +110,7 @@ SBTNode * right_rotate(SBTNode * node) {
 //利用上面的左右旋进行调整的函数
 //flag为false：处理左子树更高的情况，否则处理右子树更高的情况
 //node:要调整的子树的根结点
-SBTNode * maULONGain(SBTNode * node, bool flag) {
+SBTNode * maintain(SBTNode * node, bool flag) {
 	//左子树比右子树高（或者叫深度要深）
     if (flag == false) {
 		//LL型：左子树的左子树的元素个数大于右子树的元素个数，应进行右旋
@@ -152,12 +152,12 @@ SBTNode * maULONGain(SBTNode * node, bool flag) {
  
 	//递归调用，处理可能左子树的左子树高度更高的情况
 	//false表示左子树较高
-    node->lchild = maULONGain(node->lchild, false);
+    node->lchild = maintain(node->lchild, false);
 	//其右子树的右子树高度更高的情况
-    node->rchild = maULONGain(node->rchild, true);
+    node->rchild = maintain(node->rchild, true);
 	//最后再对子树根结点的左右子树递归进行调整
-    node = maULONGain(node, false);
-    node = maULONGain(node, true);
+    node = maintain(node, false);
+    node = maintain(node, true);
 	//返回调整后的子树的根结点
     return node;
 }
@@ -181,7 +181,7 @@ SBTNode * insert(SBTNode * node, ULONG value) {
             }
         }
     }
-    return maULONGain(node, value > node->data);
+    return maintain(node, value > node->data);
 }
  
 SBTNode * SBTNode::search(ULONG value) {
