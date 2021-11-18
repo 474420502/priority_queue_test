@@ -59,128 +59,70 @@ sh run.sh #运行测试
 
 ``` bash
 rm -f bin/main
-g++ -std=c++17 -Wall -Wextra -g -O2 -Wno-unused-parameter -Wno-unused-function -Wno-sign-compare -Wno-maybe-uninitialized -Iinclude -Llib src/sbt.h src/vbtree.h src/main.cpp -o bin/main 
-base on 500 data
-vec.dat is not exists, create random data
-vec.dat loading...
-base on 50000 data
-vec.dat is not exists, create random data
-vec.dat loading...
-base on 5000000 data
-vec.dat is not exists, create random data
-vec.dat loading...
+g++ -std=c++17 -fpermissive -g -O2 -Wno-unused-parameter -Wno-unused-function -Wno-sign-compare -Wno-maybe-uninitialized -Iinclude -Llib src/compare.hpp src/indextree.hpp src/sbt.h src/main.cpp -o bin/main
 
 case: 1
-size: 500, 117 ns/op
+size: 500, 120 ns/op
 end RBTree Case <Put> Benchmark
-size: 50000, 252 ns/op
+size: 50000, 221 ns/op
 end RBTree Case <Put> Benchmark
-size: 5000000, 770 ns/op
+size: 5000000, 742 ns/op
 end RBTree Case <Put> Benchmark
-
-base on 500 data
-vec.dat loading...
-base on 50000 data
-vec.dat loading...
-base on 5000000 data
-vec.dat loading...
 
 case: 1_1
-size: 500, 46 ns/op
+size: 500, 44 ns/op
 end RBTree Case <Get> Benchmark
-size: 50000, 143 ns/op
+size: 50000, 214 ns/op
 end RBTree Case <Get> Benchmark
-size: 5000000, 702 ns/op
+size: 5000000, 785 ns/op
 end RBTree Case <Get> Benchmark
-
-base on 500 data
-vec.dat loading...
-base on 50000 data
-vec.dat loading...
-base on 5000000 data
-vec.dat loading...
 
 case: 2
-size: 500, 100 ns/op
-end VBTree Case <Put> Benchmark
-size: 50000, 262 ns/op
-end VBTree Case <Put> Benchmark
-size: 5000000, 682 ns/op
-end VBTree Case <Put> Benchmark
-
-base on 500 data
-vec.dat loading...
-base on 50000 data
-vec.dat loading...
-base on 5000000 data
-vec.dat loading...
+size: 500, 113 ns/op
+end IndexTree Case <Put> Benchmark
+size: 50000, 276 ns/op
+end IndexTree Case <Put> Benchmark
+size: 5000000, 805 ns/op
+end IndexTree Case <Put> Benchmark
 
 case: 2_1
-size: 500, 49 ns/op
-end VBTree Case <Get> Benchmark
-size: 50000, 157 ns/op
-end VBTree Case <Get> Benchmark
-size: 5000000, 679 ns/op
-end VBTree Case <Get> Benchmark
-
-base on 500 data
-vec.dat loading...
-base on 50000 data
-vec.dat loading...
-base on 5000000 data
-vec.dat loading...
+size: 500, 33 ns/op
+end IndexTree Case <Get> Benchmark
+size: 50000, 129 ns/op
+end IndexTree Case <Get> Benchmark
+size: 5000000, 615 ns/op
+end IndexTree Case <Get> Benchmark
 
 case: 3
-size: 500, 144 ns/op
+size: 500, 94 ns/op
 end SBT Case <Put> Benchmark
-size: 50000, 290 ns/op
+size: 50000, 238 ns/op
 end SBT Case <Put> Benchmark
-size: 5000000, 987 ns/op
+size: 5000000, 916 ns/op
 end SBT Case <Put> Benchmark
-
-base on 500 data
-vec.dat loading...
-base on 50000 data
-vec.dat loading...
-base on 5000000 data
-vec.dat loading...
 
 case: 3_1
-size: 500, 40 ns/op
+size: 500, 34 ns/op
 end SBT Case <find(Get)> Benchmark
-size: 50000, 128 ns/op
+size: 50000, 192 ns/op
 end SBT Case <find(Get)> Benchmark
-size: 5000000, 661 ns/op
+size: 5000000, 606 ns/op
 end SBT Case <find(Get)> Benchmark
-
-base on 500 data
-vec.dat loading...
-base on 50000 data
-vec.dat loading...
-base on 5000000 data
-vec.dat loading...
 
 case: 4
-size: 500, 141 ns/op
+size: 500, 89 ns/op
 end SkipList Case <insert(Put)> Benchmark
-size: 50000, 290 ns/op
+size: 50000, 286 ns/op
 end SkipList Case <insert(Put)> Benchmark
-size: 5000000, 1283 ns/op
+size: 5000000, 1201 ns/op
 end SkipList Case <insert(Put)> Benchmark
-
-base on 500 data
-vec.dat loading...
-base on 50000 data
-vec.dat loading...
-base on 5000000 data
-vec.dat loading...
 
 case: 4_1
-size: 500, 52 ns/op
+size: 500, 46 ns/op
 end SkipList Case <search(Get)> Benchmark
-size: 50000, 247 ns/op
+size: 50000, 237 ns/op
 end SkipList Case <search(Get)> Benchmark
-size: 5000000, 1366 ns/op
+size: 5000000, 1318 ns/op
 end SkipList Case <search(Get)> Benchmark
 ```
 

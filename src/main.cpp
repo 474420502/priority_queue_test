@@ -1,6 +1,6 @@
 
 #include "sbt.h"
-#include "vbtree.hpp"
+#include "indextree.hpp"
 #include <chrono>
 #include <fstream>
 #include <iostream>
@@ -15,7 +15,7 @@ using chrono::high_resolution_clock;
 using std::string;
 
 
-vector<ULONG> vec500, vec50000, vec5000000;
+vector<ULONG> vec500 , vec5000, vec50000, vec500000, vec5000000;
 map<string, void (*)()> funcmap;
 
 void createData(vector<ULONG> &vec, ULONG num)
@@ -59,16 +59,18 @@ void createData(vector<ULONG> &vec, ULONG num)
 void init()
 {
   createData(vec500, 500);
+  createData(vec5000, 5000);
   createData(vec50000, 50000);
+  createData(vec500000, 500000);
   createData(vec5000000, 5000000);
 }
 
 void Case1()
 {
 
-  vector<ULONG> vecs[3] = {vec500, vec50000, vec5000000};
+  vector<ULONG> vecs[5] = {vec500, vec5000, vec50000, vec500000, vec5000000};
 
-  for (int i = 0; i < 3; i++)
+  for (int i = 0; i < 5; i++)
   {
     vector<ULONG> vec = vecs[i];
 
@@ -92,9 +94,9 @@ void Case1()
 
 void Case1_1()
 {
-  vector<ULONG> vecs[3] = {vec500, vec50000, vec5000000};
+  vector<ULONG> vecs[5] = {vec500, vec5000, vec50000, vec500000, vec5000000};
 
-  for (int i = 0; i < 3; i++)
+  for (int i = 0; i < 5; i++)
   {
     vector<ULONG> vec = vecs[i];
 
@@ -124,44 +126,44 @@ void Case1_1()
 
 void Case2()
 {
-  vector<ULONG> vecs[3] = {vec500, vec50000, vec5000000};
+  vector<ULONG> vecs[5] = {vec500, vec5000, vec50000, vec500000, vec5000000};
 
-  for (int i = 0; i < 3; i++)
+  for (int i = 0; i < 5; i++)
   {
     vector<ULONG> vec = vecs[i];
 
-    VBTree<ULONG, ULONG> m;
+    IndexTree<ULONG, ULONG> m;
 
     high_resolution_clock::time_point t1 =
         high_resolution_clock::now(); //返回时间戳
     for (ULONG i = 0; i < vec.size(); i++)
     {
       auto v = vec[i];
-      m.put(v, v);
+      m.Set(v, v);
     }
     high_resolution_clock::time_point t2 =
         high_resolution_clock::now(); //返回时间戳
 
     std::cout << "size: " << vec.size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
-    std::cout << "end VBTree Case <Put> Benchmark" << std::endl;
+    std::cout << "end IndexTree Case <Put> Benchmark" << std::endl;
   }
 }
 
 void Case2_1()
 {
 
-  vector<ULONG> vecs[3] = {vec500, vec50000, vec5000000};
+  vector<ULONG> vecs[5] = {vec500, vec5000, vec50000, vec500000, vec5000000};
 
-  for (int i = 0; i < 3; i++)
+  for (int i = 0; i < 5; i++)
   {
     vector<ULONG> vec = vecs[i];
 
-    VBTree<ULONG, ULONG> m;
+    IndexTree<ULONG, ULONG> m;
 
     for (ULONG i = 0; i < vec.size(); i++)
     {
       auto v = vec[i];
-      m.put(v, v);
+      m.Set(v, v);
     }
 
     high_resolution_clock::time_point t1 =
@@ -169,23 +171,23 @@ void Case2_1()
 
     for (auto iter = vec.begin(); iter != vec.end(); iter++)
     {
-      m.get(*iter);
+      m.Get(*iter);
     }
 
     high_resolution_clock::time_point t2 =
         high_resolution_clock::now(); //返回时间戳
 
     std::cout << "size: " << vec.size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
-    std::cout << "end VBTree Case <Get> Benchmark" << std::endl;
+    std::cout << "end IndexTree Case <Get> Benchmark" << std::endl;
   }
 }
 
 void Case3()
 {
 
-  vector<ULONG> vecs[3] = {vec500, vec50000, vec5000000};
+  vector<ULONG> vecs[5] = {vec500, vec5000, vec50000, vec500000, vec5000000};
 
-  for (int i = 0; i < 3; i++)
+  for (int i = 0; i < 5; i++)
   {
     vector<ULONG> vec = vecs[i];
 
@@ -210,9 +212,9 @@ void Case3()
 void Case3_1()
 {
 
-  vector<ULONG> vecs[3] = {vec500, vec50000, vec5000000};
+  vector<ULONG> vecs[5] = {vec500, vec5000, vec50000, vec500000, vec5000000};
 
-  for (int i = 0; i < 3; i++)
+  for (int i = 0; i < 5; i++)
   {
     vector<ULONG> vec = vecs[i];
 
@@ -243,9 +245,9 @@ void Case3_1()
 void Case4()
 {
 
-  vector<ULONG> vecs[3] = {vec500, vec50000, vec5000000};
+  vector<ULONG> vecs[5] = {vec500, vec5000, vec50000, vec500000, vec5000000};
 
-  for (int i = 0; i < 3; i++)
+  for (int i = 0; i < 5; i++)
   {
     vector<ULONG> vec = vecs[i];
 
@@ -269,9 +271,9 @@ void Case4()
 
 void Case4_1()
 {
-  vector<ULONG> vecs[3] = {vec500, vec50000, vec5000000};
+  vector<ULONG> vecs[5] = {vec500, vec5000, vec50000, vec500000, vec5000000};
 
-  for (int i = 0; i < 3; i++)
+  for (int i = 0; i < 5; i++)
   {
     vector<ULONG> vec = vecs[i];
     struct skiplist *list = skiplist_new();

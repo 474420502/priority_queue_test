@@ -1,5 +1,6 @@
 {
     "files.associations": {
+        "*.proto": "proto3",
         "cctype": "cpp",
         "clocale": "cpp",
         "cmath": "cpp",
@@ -36,6 +37,7 @@
         "tuple": "cpp",
         "typeinfo": "cpp",
         "utility": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "functional": "cpp"
     }
 }
