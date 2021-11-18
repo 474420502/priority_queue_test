@@ -20,7 +20,7 @@ map<string, void (*)()> funcmap;
 
 void createData(vector<ULONG> &vec, ULONG num)
 {
-  cout << "base on " << num << " data" << endl;
+  // cout << "base on " << num << " data" << endl;
   string fpath;
   stringstream sfpath;
   sfpath << "./vec" << num << ".dat";
@@ -29,7 +29,7 @@ void createData(vector<ULONG> &vec, ULONG num)
   std::ifstream inf(fpath.c_str());
   if (!inf.is_open())
   {
-    cout << "vec.dat is not exists, create random data" << endl;
+    cout << "vec.dat is not exists, create random data" << endl; 
     std::ofstream openfile(fpath, ios::binary | ios::trunc);
     default_random_engine e;
     std::uniform_int_distribution<> dist{0, 1000000000};
@@ -47,7 +47,7 @@ void createData(vector<ULONG> &vec, ULONG num)
     inf.open(fpath);
   }
 
-  cout << "vec.dat loading..." << endl;
+  // cout << "vec.dat loading..." << endl; 
   for (; !inf.eof();)
   {
     int v;
@@ -87,7 +87,7 @@ void Case1()
     high_resolution_clock::time_point t2 =
         high_resolution_clock::now(); //返回时间戳
 
-    std::cout << "size: " << vec.size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
+    std::cout << "size: " << m.size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
     std::cout << "end RBTree Case <Put> Benchmark" << std::endl;
   }
 }
@@ -119,7 +119,7 @@ void Case1_1()
     high_resolution_clock::time_point t2 =
         high_resolution_clock::now(); //返回时间戳
 
-    std::cout << "size: " << vec.size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
+    std::cout << "size: " << m.size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
     std::cout << "end RBTree Case <Get> Benchmark" << std::endl;
   }
 }
@@ -144,7 +144,7 @@ void Case2()
     high_resolution_clock::time_point t2 =
         high_resolution_clock::now(); //返回时间戳
 
-    std::cout << "size: " << vec.size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
+    std::cout << "size: " << m.Size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
     std::cout << "end IndexTree Case <Put> Benchmark" << std::endl;
   }
 }
@@ -177,7 +177,7 @@ void Case2_1()
     high_resolution_clock::time_point t2 =
         high_resolution_clock::now(); //返回时间戳
 
-    std::cout << "size: " << vec.size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
+    std::cout << "size: " << m.Size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
     std::cout << "end IndexTree Case <Get> Benchmark" << std::endl;
   }
 }
@@ -204,7 +204,7 @@ void Case3()
     high_resolution_clock::time_point t2 =
         high_resolution_clock::now(); //返回时间戳
 
-    std::cout << "size: " << vec.size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
+    std::cout << "size: " << tree.size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
     std::cout << "end SBT Case <Put> Benchmark" << std::endl;
   }
 }
@@ -237,7 +237,7 @@ void Case3_1()
     high_resolution_clock::time_point t2 =
         high_resolution_clock::now(); //返回时间戳
 
-    std::cout << "size: " << vec.size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
+    std::cout << "size: " << tree.size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
     std::cout << "end SBT Case <find(Get)> Benchmark" << std::endl;
   }
 }

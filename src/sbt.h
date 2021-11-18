@@ -37,6 +37,7 @@ public:
     bool find(ULONG value);
     bool remove(ULONG value);
     ULONG select(ULONG k);
+    ULONG size();
 };
  
 //这里搞了个权值为0的结点，避免在边界情况时对空指针（NULL）进行特判，所以将所有原本指向空指针的情况都改为指向一个 ZPTR，并将其 size 设置为 0，从而降低代码复杂度。
@@ -298,6 +299,11 @@ void BinaryTree::insert(ULONG value) {
         root = ::insert(root, value);
     }
 }
+
+ULONG BinaryTree::size()  {
+    return this->root->size;
+}
+ 
  
 bool BinaryTree::find(ULONG value) {
     if (root->search(value) == NULL) {

@@ -37,17 +37,14 @@ public:
 	~IndexTree()
 	{
 		// 递归delete Root
-		if (this->Root != NULL)
-		{
-			this->traverse_delete(this->Root);
-			delete this->Root;
-		}
+		this->traverse_delete(this->Root);
+		delete this->Root;
 	}
 
 	NODE *Root;
 
 public:
-	int Compare(TYPE_KEY key1, TYPE_KEY key2)
+	inline int Compare(TYPE_KEY key1, TYPE_KEY key2)
 	{
 		if (key1 > key2)
 		{
@@ -146,12 +143,12 @@ private:
 	const int L = 0;
 	const int R = 1;
 
-	NODE *get_root()
+	inline NODE *get_root()
 	{
 		return this->Root->Children[L];
 	}
 
-	NODE *create_default_node(NODE *parent, TYPE_KEY key, TYPE_VALUE value)
+	inline NODE *create_default_node(NODE *parent, TYPE_KEY key, TYPE_VALUE value)
 	{
 		NODE *node = new NODE();
 		node->Key = key;
@@ -161,7 +158,7 @@ private:
 		return node;
 	}
 
-	NODE *get_node(TYPE_KEY key)
+	inline NODE *get_node(TYPE_KEY key)
 	{
 
 		NODE *cur = this->get_root();
@@ -246,7 +243,7 @@ private:
 		}
 	}
 
-	void traverse_delete(NODE *Current)
+	inline void traverse_delete(NODE *Current)
 	{
 		if (Current->Children[L] != NULL)
 		{
@@ -261,7 +258,7 @@ private:
 		}
 	}
 
-	void fix_put(NODE *cur)
+	inline void fix_put(NODE *cur)
 	{
 
 		cur->Size++;
@@ -288,11 +285,11 @@ private:
 			parent = cur->Parent;
 
 			root2nsize = (1 << height);
-			// (1<< height) -1 允许的最大size　超过证明高度超1, 并且有最少１size的空缺
+			// (1<< height) -1 允许的最大size　超过证明高度差超1, 并且有最少, size的空缺并且可以旋转
 			if (cur->Size < root2nsize)
 			{
 				child2nsize = root2nsize >> 2;
-				bottomsize = (child2nsize + child2nsize) >> (height >> 1);
+				bottomsize = child2nsize + (child2nsize >> (height >> 1));
 
 				int lsize = get_child_size(cur->Children[L]);
 				int rsize = get_child_size(cur->Children[R]);
@@ -330,7 +327,7 @@ private:
 		}
 	}
 
-	void fix_put_size(NODE *cur)
+	inline void fix_put_size(NODE *cur)
 	{
 		while (cur != this->Root)
 		{
@@ -339,7 +336,7 @@ private:
 		};
 	}
 
-	int get_child_size(NODE *cur)
+	inline int get_child_size(NODE *cur)
 	{
 		if (cur == NULL)
 		{
@@ -348,7 +345,7 @@ private:
 		return cur->Size;
 	}
 
-	NODE *size_right_rotate(NODE *cur)
+	inline NODE *size_right_rotate(NODE *cur)
 	{
 		int lsize = get_child_size(cur->Children[L]);
 		int rsize = get_child_size(cur->Children[R]);
@@ -360,7 +357,7 @@ private:
 		return this->rotate<1, 0>(cur);
 	}
 
-	NODE *size_left_rotate(NODE *cur)
+	inline NODE *size_left_rotate(NODE *cur)
 	{
 		int lsize = get_child_size(cur->Children[L]);
 		int rsize = get_child_size(cur->Children[R]);
@@ -373,7 +370,7 @@ private:
 
 	// L = 0, R = 1 右旋. 反之 左旋
 	template <const int L, const int R>
-	NODE *rotate(NODE *cur)
+	inline NODE *rotate(NODE *cur)
 	{
 
 		NODE *mov = cur->Children[L];
@@ -408,7 +405,7 @@ private:
 		return mov;
 	}
 
-	int get_children_sum_size(NODE *cur)
+	inline int get_children_sum_size(NODE *cur)
 	{
 		return this->get_child_size(cur->Children[L]) + this->get_child_size(cur->Children[R]);
 	}

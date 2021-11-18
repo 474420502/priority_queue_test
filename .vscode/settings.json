@@ -38,6 +38,14 @@
         "typeinfo": "cpp",
         "utility": "cpp",
         "random": "cpp",
-        "functional": "cpp"
+        "functional": "cpp",
+        "atomic": "cpp",
+        "bit": "cpp",
+        "deque": "cpp",
+        "string": "cpp",
+        "algorithm": "cpp",
+        "memory_resource": "cpp",
+        "memory": "cpp",
+        "map": "cpp"
     }
 }

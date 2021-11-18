@@ -1,5 +1,5 @@
 CC		:= g++
-C_FLAGS := -std=c++17 -fpermissive -g -O2 -Wno-unused-parameter -Wno-unused-function -Wno-sign-compare -Wno-maybe-uninitialized
+C_FLAGS := -std=c++17 -fpermissive -g -O2  -Wno-unused-parameter -Wno-unused-function -Wno-sign-compare -Wno-maybe-uninitialized
 
 BIN		:= bin
 SRC		:= src
