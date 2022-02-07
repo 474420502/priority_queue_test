@@ -4,6 +4,8 @@
 
 最经典的就是Heap的应用, 效率也相当高, 当时操作仅限Put Pop. 无法实现Rank, Index等操作, 很多时候结构使用局限性较大. 甚至会出现一些每次需要Index, Rank的时候, 先Copy一个数组, Sort(排序一次), 通过数组Index. 数据量非常小的情景下, 实则怎么操作都没什么大问题. 量巨大的时候, 效率异常低下. 所以以下是我曾经为了优先队列的一些研究, 我写文章很随意, 如果有错的我后面更正, 我写完自己都不会看.
   
+## AVL 无论什么情况都是由于红黑树, 实在想put速度快, 设置高度差为2旋转, 效率更高一些. 红黑树测试来看没多大意义.
+
 ---
 
 * SkipList
@@ -25,29 +27,29 @@
 
 ---
 
-* Vague Balance Tree
+* Index Balance Tree
   
 > 简称[IBT] 这个树是我根据宽度平衡的一些构想并实现, 我在实现这个树结构的时候,完全不知道SBT的存在(知道我不会写了). 通过大量的结果测试, 写出由一个平衡因子作旋转的平衡树, 具体以后再写. 实测性能不输RBTree(红黑), AVLTree, SBT SkipList并且有 SBT等同的属性. 在一些特殊倾斜的数据集会略输. 后面我想用vbt代替skiplist实现一个可以并行处理的顺序写简单例子(工作不忙的前提下).
 
-* Put
-  
-|测试名\数据量 | 500   | 50000 | 5000000 |
-|  ----      | ----  | ----  |   ----  |
-| rbtree     |  117  |  252  |   770   |
-| ibt        |  100  |  262  |   682   |
-| sbt        |  144  |  290  |   987   |
-| skiplist   |  141  |  290  |   1283  |
-| avl        |  141  |  290  |   1283  |
+ * Put
+
+| Put(测试名\数据量) | 500 | 5000 | 50000 | 500000 | 5000000 |
+| ------------------ | --- | ---- | ----- | ------ | ------- |
+| SBT                | 72  | 96   | 237   | 729    | 1316    |
+| IndexTree          | 77  | 100  | 216   | 616    | 1162    |
+| AVLTree            | 66  | 116  | 233   | 581    | 1051    |
+| RBTree             | 75  | 90   | 195   | 601    | 1106    |
+| SkipList           | 66  | 92   | 251   | 927    | 1891    |
 
 * Get
-  
-|测试名\数据量 | 500   | 50000 | 5000000 |
-|  ----      | ----  | ----  |   ----  |
-| rbtree     |  46   |  143  |   702   |
-| ibt        |  49   |  157  |   679   |
-| sbt        |  40   |  128  |   661   |
-| skiplist   |  52   |  247  |   1366  |
-| avl        |  141  |  290  |   1283  |
+
+| Get(测试名\数据量) | 500 | 5000 | 50000 | 500000 | 5000000 |
+| ------------------ | --- | ---- | ----- | ------ | ------- |
+| IndexTree          | 31  | 73   | 165   | 453    | 963     |
+| SBT                | 30  | 46   | 131   | 429    | 897     |
+| AVLTree            | 31  | 47   | 133   | 444    | 909     |
+| RBTree             | 36  | 61   | 175   | 515    | 1021    |
+| SkipList           | 38  | 65   | 191   | 1127   | 2136    |
 
 ---
 
@@ -61,71 +63,27 @@ sh run.sh #运行测试
 
 ``` bash
 rm -f bin/main
-g++ -std=c++17 -fpermissive -g -O2 -Wno-unused-parameter -Wno-unused-function -Wno-sign-compare -Wno-maybe-uninitialized -Iinclude -Llib src/compare.hpp src/indextree.hpp src/sbt.h src/main.cpp -o bin/main
+g++ -std=c++17 -fpermissive -g -O2  -Wno-unused-parameter -Wno-unused-function -Wno-sign-compare -Wno-maybe-uninitialized -Iinclude -Llib src/compare.hpp src/indextree.hpp src/sbt.h src/main.cpp src/avl.hpp -o bin/main 
 
-case: 1
-size: 500, 120 ns/op
-end RBTree Case <Put> Benchmark
-size: 50000, 221 ns/op
-end RBTree Case <Put> Benchmark
-size: 5000000, 742 ns/op
-end RBTree Case <Put> Benchmark
+* Put
 
-case: 1_1
-size: 500, 44 ns/op
-end RBTree Case <Get> Benchmark
-size: 50000, 214 ns/op
-end RBTree Case <Get> Benchmark
-size: 5000000, 785 ns/op
-end RBTree Case <Get> Benchmark
+| Put(测试名\数据量) | 500 | 5000 | 50000 | 500000 | 5000000 |
+| ------------------ | --- | ---- | ----- | ------ | ------- |
+| SkipList           | 65  | 92   | 218   | 869    | 1908    |
+| IndexTree          | 77  | 114  | 217   | 664    | 1169    |
+| SBT                | 73  | 100  | 222   | 694    | 1314    |
+| AVLTree            | 74  | 121  | 267   | 637    | 1042    |
+| RBTree             | 73  | 89   | 181   | 587    | 1100    |
 
-case: 2
-size: 500, 113 ns/op
-end IndexTree Case <Put> Benchmark
-size: 50000, 276 ns/op
-end IndexTree Case <Put> Benchmark
-size: 5000000, 805 ns/op
-end IndexTree Case <Put> Benchmark
+* Get
 
-case: 2_1
-size: 500, 33 ns/op
-end IndexTree Case <Get> Benchmark
-size: 50000, 129 ns/op
-end IndexTree Case <Get> Benchmark
-size: 5000000, 615 ns/op
-end IndexTree Case <Get> Benchmark
-
-case: 3
-size: 500, 94 ns/op
-end SBT Case <Put> Benchmark
-size: 50000, 238 ns/op
-end SBT Case <Put> Benchmark
-size: 5000000, 916 ns/op
-end SBT Case <Put> Benchmark
-
-case: 3_1
-size: 500, 34 ns/op
-end SBT Case <find(Get)> Benchmark
-size: 50000, 192 ns/op
-end SBT Case <find(Get)> Benchmark
-size: 5000000, 606 ns/op
-end SBT Case <find(Get)> Benchmark
-
-case: 4
-size: 500, 89 ns/op
-end SkipList Case <insert(Put)> Benchmark
-size: 50000, 286 ns/op
-end SkipList Case <insert(Put)> Benchmark
-size: 5000000, 1201 ns/op
-end SkipList Case <insert(Put)> Benchmark
-
-case: 4_1
-size: 500, 46 ns/op
-end SkipList Case <search(Get)> Benchmark
-size: 50000, 237 ns/op
-end SkipList Case <search(Get)> Benchmark
-size: 5000000, 1318 ns/op
-end SkipList Case <search(Get)> Benchmark
+| Get(测试名\数据量) | 500 | 5000 | 50000 | 500000 | 5000000 |
+| ------------------ | --- | ---- | ----- | ------ | ------- |
+| SkipList           | 38  | 64   | 225   | 1013   | 2148    |
+| IndexTree          | 31  | 47   | 120   | 456    | 943     |
+| SBT                | 31  | 46   | 126   | 442    | 889     |
+| AVLTree            | 31  | 47   | 128   | 449    | 919     |
+| RBTree             | 36  | 59   | 179   | 514    | 1024    |
 ```
 
 * skiplist 效果并不如所述的理想. 只是在并行处理上有巨大的优势.

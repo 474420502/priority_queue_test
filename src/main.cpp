@@ -21,7 +21,7 @@ map<string, void (*)()> funcmap;
 
 void createData(vector<ULONG> &vec, ULONG num)
 {
-  // cout << "base on " << num << " data" << endl;
+  // std::cout << "base on " << num << " data" << endl;
   string fpath;
   stringstream sfpath;
   sfpath << "./vec" << num << ".dat";
@@ -30,7 +30,7 @@ void createData(vector<ULONG> &vec, ULONG num)
   std::ifstream inf(fpath.c_str());
   if (!inf.is_open())
   {
-    cout << "vec.dat is not exists, create random data" << endl; 
+    std::cout << "vec.dat is not exists, create random data" << endl; 
     std::ofstream openfile(fpath, ios::binary | ios::trunc);
     default_random_engine e;
     std::uniform_int_distribution<> dist{0, 1000000000};
@@ -73,6 +73,9 @@ void Case1()
 {
 
   vector<ULONG> vecs[5] = {vec500, vec5000, vec50000, vec500000, vec5000000};
+  std::stringstream tablestr  ;
+  // tablestr << "Put" << "\n" << "|" << "RBTree" ;
+  tablestr << "|" << "RBTree" ;
 
   for (int i = 0; i < 5; i++)
   {
@@ -91,14 +94,22 @@ void Case1()
     high_resolution_clock::time_point t2 =
         high_resolution_clock::now(); //返回时间戳
 
-    std::cout << "size: " << m.size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
-    std::cout << "end RBTree Case <Put> Benchmark" << std::endl;
+    tablestr << "|" << (t2 - t1).count() / vec.size();
+    // std::cout << "size: " << m.size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
+    // std::cout << "end RBTree Case <Put> Benchmark" << std::endl;
+    
   }
+  tablestr << "|";
+  std::cout << tablestr.str() ;
 }
 
 void Case1_1()
 {
   vector<ULONG> vecs[5] = {vec500, vec5000, vec50000, vec500000, vec5000000};
+  std::stringstream tablestr  ;
+  // tablestr << "Get" << "\n" << "|" << "RBTree" ;
+  tablestr << "|" << "RBTree" ;
+
 
   for (int i = 0; i < 5; i++)
   {
@@ -123,14 +134,21 @@ void Case1_1()
     high_resolution_clock::time_point t2 =
         high_resolution_clock::now(); //返回时间戳
 
-    std::cout << "size: " << m.size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
-    std::cout << "end RBTree Case <Get> Benchmark" << std::endl;
+    tablestr << "|" << (t2 - t1).count() / vec.size();
+    // std::cout << "size: " << m.size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
+    // std::cout << "end RBTree Case <Get> Benchmark" << std::endl;
+    
   }
+  tablestr << "|";
+  std::cout << tablestr.str() ;
 }
 
 void Case2()
 {
   vector<ULONG> vecs[5] = {vec500, vec5000, vec50000, vec500000, vec5000000};
+  std::stringstream tablestr  ;
+  // tablestr << "Put" << "\n" << "|" << "IndexTree" ;
+  tablestr << "|" << "IndexTree" ;
 
   for (int i = 0; i < 5; i++)
   {
@@ -148,15 +166,22 @@ void Case2()
     high_resolution_clock::time_point t2 =
         high_resolution_clock::now(); //返回时间戳
 
-    std::cout << "size: " << m.Size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
-    std::cout << "end IndexTree Case <Put> Benchmark" << std::endl;
+    tablestr << "|" << (t2 - t1).count() / vec.size();
+    // std::cout << "size: " << m.Size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
+    // std::cout << "end IndexTree Case <Put> Benchmark" << std::endl;
+    
   }
+  tablestr << "|";
+  std::cout << tablestr.str() ;
 }
 
 void Case2_1()
 {
 
   vector<ULONG> vecs[5] = {vec500, vec5000, vec50000, vec500000, vec5000000};
+  std::stringstream tablestr  ;
+  // tablestr << "Get" << "\n" << "|" << "IndexTree" ;
+  tablestr << "|" << "IndexTree" ;
 
   for (int i = 0; i < 5; i++)
   {
@@ -181,15 +206,22 @@ void Case2_1()
     high_resolution_clock::time_point t2 =
         high_resolution_clock::now(); //返回时间戳
 
-    std::cout << "size: " << m.Size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
-    std::cout << "end IndexTree Case <Get> Benchmark" << std::endl;
+    tablestr << "|" << (t2 - t1).count() / vec.size();
+    // std::cout << "size: " << m.Size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
+    // std::cout << "end IndexTree Case <Get> Benchmark" << std::endl;
+    
   }
+  tablestr << "|";
+  std::cout << tablestr.str() ;
 }
 
 void Case3()
 {
 
   vector<ULONG> vecs[5] = {vec500, vec5000, vec50000, vec500000, vec5000000};
+  std::stringstream tablestr  ;
+  // tablestr << "Put" << "\n" << "|" << "SBT" ;
+  tablestr << "|" << "SBT" ;
 
   for (int i = 0; i < 5; i++)
   {
@@ -208,15 +240,22 @@ void Case3()
     high_resolution_clock::time_point t2 =
         high_resolution_clock::now(); //返回时间戳
 
-    std::cout << "size: " << tree.size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
-    std::cout << "end SBT Case <Put> Benchmark" << std::endl;
+    tablestr << "|" << (t2 - t1).count() / vec.size();
+    // std::cout << "size: " << tree.size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
+    // std::cout << "end SBT Case <Put> Benchmark" << std::endl;
+    
   }
+  tablestr << "|";
+  std::cout << tablestr.str() ;
 }
 
 void Case3_1()
 {
 
   vector<ULONG> vecs[5] = {vec500, vec5000, vec50000, vec500000, vec5000000};
+  std::stringstream tablestr  ;
+  // tablestr << "Get" << "\n" << "|" << "SBT" ;
+  tablestr << "|" << "SBT" ;
 
   for (int i = 0; i < 5; i++)
   {
@@ -241,15 +280,22 @@ void Case3_1()
     high_resolution_clock::time_point t2 =
         high_resolution_clock::now(); //返回时间戳
 
-    std::cout << "size: " << tree.size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
-    std::cout << "end SBT Case <find(Get)> Benchmark" << std::endl;
+    tablestr << "|" << (t2 - t1).count() / vec.size();
+    // std::cout << "size: " << tree.size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
+    // std::cout << "end SBT Case <Get> Benchmark" << std::endl;
+    
   }
+  tablestr << "|";
+  std::cout << tablestr.str() ;
 }
 
 void Case4()
 {
 
   vector<ULONG> vecs[5] = {vec500, vec5000, vec50000, vec500000, vec5000000};
+  std::stringstream tablestr  ;
+  // tablestr << "Put" << "\n" << "|" << "SkipList" ;
+  tablestr << "|" << "SkipList" ;
 
   for (int i = 0; i < 5; i++)
   {
@@ -268,14 +314,21 @@ void Case4()
     high_resolution_clock::time_point t2 =
         high_resolution_clock::now(); //返回时间戳
 
-    std::cout << "size: " << vec.size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
-    std::cout << "end SkipList Case <insert(Put)> Benchmark" << std::endl;
+    tablestr << "|" << (t2 - t1).count() / vec.size();
+    // std::cout << "size: " << vec.size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
+    // std::cout << "end SkipList Case <Put> Benchmark" << std::endl;
+    
   }
+  tablestr << "|";
+  std::cout << tablestr.str() ;
 }
 
 void Case4_1()
 {
   vector<ULONG> vecs[5] = {vec500, vec5000, vec50000, vec500000, vec5000000};
+  std::stringstream tablestr  ;
+  // tablestr << "Get" << "\n" << "|" << "SkipList" ;
+  tablestr << "|" << "SkipList" ;
 
   for (int i = 0; i < 5; i++)
   {
@@ -299,9 +352,13 @@ void Case4_1()
     high_resolution_clock::time_point t2 =
         high_resolution_clock::now(); //返回时间戳
 
-    std::cout << "size: " << vec.size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
-    std::cout << "end SkipList Case <search(Get)> Benchmark" << std::endl;
+    tablestr << "|" << (t2 - t1).count() / vec.size();
+    // std::cout << "size: " << vec.size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
+    // std::cout << "end SkipList Case <Get> Benchmark" << std::endl;
+    
   }
+  tablestr << "|";
+  std::cout << tablestr.str() ;
 }
 
 
@@ -309,6 +366,9 @@ void Case5()
 {
 
   vector<ULONG> vecs[5] = {vec500, vec5000, vec50000, vec500000, vec5000000};
+  std::stringstream tablestr  ;
+  // tablestr << "Put" << "\n" << "|" << "AVLTree" ;
+  tablestr << "|" << "AVLTree" ;
 
   for (int i = 0; i < 5; i++)
   {
@@ -326,14 +386,21 @@ void Case5()
     high_resolution_clock::time_point t2 =
         high_resolution_clock::now(); //返回时间戳
 
-    std::cout << "size: " << m.Size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
-    std::cout << "end AVLTree Case <Put> Benchmark" << std::endl;
+    tablestr << "|" << (t2 - t1).count() / vec.size();
+    // std::cout << "size: " << m.Size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
+    // std::cout << "end AVLTree Case <Put> Benchmark" << std::endl;
+    
   }
+  tablestr << "|";
+  std::cout << tablestr.str() ;
 }
 
 void Case5_1()
 {
   vector<ULONG> vecs[5] = {vec500, vec5000, vec50000, vec500000, vec5000000};
+  std::stringstream tablestr  ;
+  // tablestr << "Get" << "\n" << "|" << "AVLTree" ;
+  tablestr << "|" << "AVLTree" ;
 
   for (int i = 0; i < 5; i++)
   {
@@ -358,9 +425,13 @@ void Case5_1()
     high_resolution_clock::time_point t2 =
         high_resolution_clock::now(); //返回时间戳
 
-    std::cout << "size: " << m.Size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
-    std::cout << "end AVLTree Case <Get> Benchmark" << std::endl;
+    tablestr << "|" << (t2 - t1).count() / vec.size();
+    // std::cout << "size: " << m.Size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
+    // std::cout << "end AVLTree Case <Get> Benchmark" << std::endl;
+    
   }
+  tablestr << "|";
+  std::cout << tablestr.str() ;
 }
 
 
@@ -383,10 +454,10 @@ int main(int argc, char *argv[])
   funcmap["5"] = Case5;
   funcmap["5_1"] = Case5_1;
 
-  cout << endl;
-  cout << "case: " << argv[1] << endl;
+  // std::cout << endl;
+  // std::cout << "case: " << argv[1] << endl; 
   string fname = argv[1];
   funcmap[fname]();
 
-  cout << endl;
+  std::cout << endl;
 }

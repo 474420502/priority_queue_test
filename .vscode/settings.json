@@ -46,6 +46,8 @@
         "algorithm": "cpp",
         "memory_resource": "cpp",
         "memory": "cpp",
-        "map": "cpp"
+        "map": "cpp",
+        "cstdarg": "cpp",
+        "iterator": "cpp"
     }
 }
