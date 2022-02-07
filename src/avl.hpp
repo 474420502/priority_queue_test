@@ -51,7 +51,7 @@ private:
 public:
     NODE *Root;
 
-    inline int Compare(TYPE_KEY &key1, TYPE_KEY &key2)
+    inline int Compare(TYPE_KEY  key1, TYPE_KEY  key2)
     {
         if (key1 > key2)
         {
@@ -67,7 +67,7 @@ public:
         }
     }
 
-    NODE *newNode(TYPE_KEY &key, TYPE_VALUE &value)
+    NODE *newNode(TYPE_KEY  key, TYPE_VALUE  value)
     {
         NODE *node = new NODE();
         node->Key = key;
@@ -82,18 +82,18 @@ public:
     }
 
  
-  	SLICE *Get(TYPE_KEY &key)
+  	NODE *Get(TYPE_KEY  key)
 	{
 		NODE *cur = this->get_node(key);
 		if (cur != NULL)
 		{
-			return (SLICE *)cur;
+			return  cur;
 		}
 		return NULL;
 	}
   
 
-    bool Set(TYPE_KEY &key, TYPE_VALUE value)
+    bool Set(TYPE_KEY  key, TYPE_VALUE value)
     {
 
         if (this->size == 0)
@@ -147,7 +147,7 @@ public:
         }
     };
 
-    bool Put(TYPE_KEY &key, TYPE_VALUE value)
+    bool Put(TYPE_KEY  key, TYPE_VALUE value)
     {
 
         if (this->size == 0)
@@ -210,7 +210,7 @@ private:
         n2->Value = v1;
     }
 
-    inline NODE *get_node(TYPE_KEY &key)
+    inline NODE *get_node(TYPE_KEY  key)
 	{
 
 		NODE *cur = this->Root;
@@ -355,7 +355,7 @@ private:
         return cur->Height;
     };
 
-    void fixPutHeight(NODE* cur )
+    inline void fixPutHeight(NODE* cur )
     {
 
         while (true)
@@ -369,7 +369,7 @@ private:
 
             if (lefth < rigthh)
             {
-                int hdiff = 2;
+                int hdiff = 1;
                 if (diff < -hdiff)
                 {
                     NODE *r = cur->Children[1]; // 根据左旋转的右边节点的子节点 左右高度选择旋转的方式
@@ -390,7 +390,7 @@ private:
             }
             else if (lefth > rigthh)
             {
-                int hdiff = 2;
+                int hdiff = 1;
                 if (diff > hdiff)
                 {
                     NODE *l = cur->Children[0];

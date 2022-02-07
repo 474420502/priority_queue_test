@@ -30,7 +30,7 @@ void createData(vector<ULONG> &vec, ULONG num)
   std::ifstream inf(fpath.c_str());
   if (!inf.is_open())
   {
-    std::cout << "vec.dat is not exists, create random data" << endl; 
+    // std::cout << "vec.dat is not exists, create random data" << endl; 
     std::ofstream openfile(fpath, ios::binary | ios::trunc);
     default_random_engine e;
     std::uniform_int_distribution<> dist{0, 1000000000};
