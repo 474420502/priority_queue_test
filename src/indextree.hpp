@@ -3,6 +3,40 @@
 #include <sstream>
 #include <memory>
 
+class limit_table {
+public: 
+
+	struct height_limit_size {
+		int	rootsize;
+	 	int bottomsize; 
+	};
+
+	height_limit_size table[64];
+
+	limit_table() {
+
+			 
+	for (int i = 2; i < 64; i++) {
+		int root2nsize = 1 << i;
+		int bottomsize = root2nsize >> 1;
+ 
+		for ( int x = 3; x < 64; x++) {
+			int rsize = root2nsize >> x;
+			if (rsize == 0) {
+				break;
+			};
+			bottomsize -= rsize;
+		}
+
+		 table[i].rootsize = root2nsize;
+		 table[i].bottomsize = bottomsize;
+	};
+ 
+	};
+
+};
+
+limit_table table;
 
 template <class TYPE_KEY, class TYPE_VALUE>
 struct Slice
@@ -26,6 +60,7 @@ class IndexTree
 
 	typedef Node<TYPE_KEY, TYPE_VALUE> NODE;
 	typedef Slice<TYPE_KEY, TYPE_VALUE> SLICE;
+
 public:
 	IndexTree()
 	{
@@ -70,13 +105,14 @@ public:
 		return 0;
 	}
 
-	SLICE* Get(TYPE_KEY key)
+	SLICE *Get(TYPE_KEY key)
 	{
-		NODE* cur = this->get_node(key);
-		if (cur != NULL) {
-			return  (SLICE*)cur; 
+		NODE *cur = this->get_node(key);
+		if (cur != NULL)
+		{
+			return (SLICE *)cur;
 		}
-	 	return NULL;
+		return NULL;
 	}
 
 	void DebugLog()
@@ -153,7 +189,7 @@ private:
 		NODE *node = new NODE();
 		node->Key = key;
 		node->Value = value;
-		node->Size = 1;
+		node->Size = 1; 
 		node->Parent = parent;
 		return node;
 	}
@@ -258,6 +294,11 @@ private:
 		}
 	}
 
+ 
+
+
+
+
 	inline void fix_put(NODE *cur)
 	{
 
@@ -269,7 +310,6 @@ private:
 		}
 
 		int height = 2;
-		int root2nsize, child2nsize, bottomsize;
 		int relations = L;
 		NODE *parent;
 
@@ -284,31 +324,33 @@ private:
 			cur->Size++;
 			parent = cur->Parent;
 
-			root2nsize = (1 << height);
-			// (1<< height) -1 允许的最大size　超过证明高度差超1, 并且有最少, size的空缺并且可以旋转
-			if (cur->Size < root2nsize)
-			{
-				child2nsize = root2nsize >> 2;
-				bottomsize = child2nsize + (child2nsize >> (height >> 1));
 
+			limit_table::height_limit_size limitsize = table.table[height];
+
+ 
+			// (1<< height) -1 允许的最大size　超过证明高度差超1, 并且有最少, size的空缺并且可以旋转
+			if (cur->Size < limitsize.rootsize)
+			{
 				int lsize = get_child_size(cur->Children[L]);
 				int rsize = get_child_size(cur->Children[R]);
 
 				// 右就检测左边
 				if (relations == R)
 				{
-					if (rsize - lsize >= bottomsize)
+					if (rsize - lsize >= limitsize.bottomsize)
 					{
 						cur = this->size_right_rotate(cur);
-						height--;
+						fix_put_size(parent);
+						return ;
 					}
 				}
 				else
 				{
-					if (lsize - rsize >= bottomsize)
+					if (lsize - rsize >= limitsize.bottomsize)
 					{
 						cur = this->size_left_rotate(cur);
-						height--;
+						fix_put_size(parent);
+						return ;
 					}
 				}
 			}
@@ -347,23 +389,25 @@ private:
 
 	inline NODE *size_right_rotate(NODE *cur)
 	{
-		int lsize = get_child_size(cur->Children[L]);
-		int rsize = get_child_size(cur->Children[R]);
+		NODE* child = cur->Children[R];
+		int lsize = get_child_size(child->Children[L]);
+		int rsize = get_child_size(child->Children[R]);
 
 		if (lsize > rsize)
 		{
-			this->rotate<0, 1>(cur->Children[R]);
+			this->rotate<0, 1>(child);
 		}
 		return this->rotate<1, 0>(cur);
 	}
 
 	inline NODE *size_left_rotate(NODE *cur)
 	{
-		int lsize = get_child_size(cur->Children[L]);
-		int rsize = get_child_size(cur->Children[R]);
+		NODE* child = cur->Children[L];
+		int lsize = get_child_size(child->Children[L]);
+		int rsize = get_child_size(child->Children[R]);
 		if (lsize < rsize)
 		{
-			this->rotate<1, 0>(cur->Children[L]);
+			this->rotate<1, 0>(child);
 		}
 		return this->rotate<0, 1>(cur);
 	}
@@ -410,3 +454,6 @@ private:
 		return this->get_child_size(cur->Children[L]) + this->get_child_size(cur->Children[R]);
 	}
 };
+
+
+

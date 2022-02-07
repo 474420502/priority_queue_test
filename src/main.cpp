@@ -9,6 +9,7 @@
 #include <map>
 #include <random>
 #include "skiplist/skiplist.h"
+#include "avl.hpp"
 
 using namespace std;
 using chrono::high_resolution_clock;
@@ -64,6 +65,9 @@ void init()
   createData(vec500000, 500000);
   createData(vec5000000, 5000000);
 }
+
+
+
 
 void Case1()
 {
@@ -300,6 +304,66 @@ void Case4_1()
   }
 }
 
+
+void Case5()
+{
+
+  vector<ULONG> vecs[5] = {vec500, vec5000, vec50000, vec500000, vec5000000};
+
+  for (int i = 0; i < 5; i++)
+  {
+    vector<ULONG> vec = vecs[i];
+
+    AVL<ULONG, ULONG> m;
+
+      high_resolution_clock::time_point t1 =
+        high_resolution_clock::now(); //返回时间戳
+    for (ULONG i = 0; i < vec.size(); i++)
+    {
+      auto v = vec[i];
+      m.Set(v, v);
+    }
+    high_resolution_clock::time_point t2 =
+        high_resolution_clock::now(); //返回时间戳
+
+    std::cout << "size: " << m.Size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
+    std::cout << "end AVLTree Case <Put> Benchmark" << std::endl;
+  }
+}
+
+void Case5_1()
+{
+  vector<ULONG> vecs[5] = {vec500, vec5000, vec50000, vec500000, vec5000000};
+
+  for (int i = 0; i < 5; i++)
+  {
+    vector<ULONG> vec = vecs[i];
+
+    AVL<ULONG, ULONG> m;
+
+    for (ULONG i = 0; i < vec.size(); i++)
+    {
+      auto v = vec[i];
+      m.Set(v, v);
+    }
+
+    high_resolution_clock::time_point t1 =
+        high_resolution_clock::now(); //返回时间戳
+
+    for (auto iter = vec.begin(); iter != vec.end(); iter++)
+    {
+      m.Get(*iter);
+    }
+
+    high_resolution_clock::time_point t2 =
+        high_resolution_clock::now(); //返回时间戳
+
+    std::cout << "size: " << m.Size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
+    std::cout << "end AVLTree Case <Get> Benchmark" << std::endl;
+  }
+}
+
+
 int main(int argc, char *argv[])
 {
   init();
@@ -315,6 +379,9 @@ int main(int argc, char *argv[])
 
   funcmap["4"] = Case4;
   funcmap["4_1"] = Case4_1;
+
+  funcmap["5"] = Case5;
+  funcmap["5_1"] = Case5_1;
 
   cout << endl;
   cout << "case: " << argv[1] << endl;
