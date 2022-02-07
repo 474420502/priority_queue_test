@@ -310,6 +310,7 @@ private:
 		}
 
 		int height = 2;
+		int lsize, rsize ;
 		int relations = L;
 		NODE *parent;
 
@@ -325,21 +326,21 @@ private:
 			parent = cur->Parent;
 
 
-			limit_table::height_limit_size limitsize = table.table[height];
+			limit_table::height_limit_size &  limitsize = table.table[height];
 
  
 			// (1<< height) -1 允许的最大size　超过证明高度差超1, 并且有最少, size的空缺并且可以旋转
 			if (cur->Size < limitsize.rootsize)
 			{
-				int lsize = get_child_size(cur->Children[L]);
-				int rsize = get_child_size(cur->Children[R]);
+				lsize = get_child_size(cur->Children[L]);
+				rsize = get_child_size(cur->Children[R]);
 
 				// 右就检测左边
 				if (relations == R)
 				{
 					if (rsize - lsize >= limitsize.bottomsize)
 					{
-						cur = this->size_right_rotate(cur);
+						this->size_right_rotate(cur);
 						fix_put_size(parent);
 						return ;
 					}
@@ -348,7 +349,7 @@ private:
 				{
 					if (lsize - rsize >= limitsize.bottomsize)
 					{
-						cur = this->size_left_rotate(cur);
+						this->size_left_rotate(cur);
 						fix_put_size(parent);
 						return ;
 					}

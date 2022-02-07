@@ -248,7 +248,7 @@ private:
         }
     }
 
-    template <int l, int r>
+    template <const int l,const int r>
     void double_rotate(NODE *cur)
     {
         NODE *movparent = cur->Children[l];
@@ -293,7 +293,7 @@ private:
         cur->Height = getMaxChildrenHeight(cur) + 1;
     }
 
-    template <int l, int r>
+    template <const int l,const int r>
     void rotate(NODE *cur)
     {
         // const l = 0
