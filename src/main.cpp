@@ -10,6 +10,7 @@
 #include <random>
 #include "skiplist/skiplist.h"
 #include "avl.hpp"
+#include "rbtree/rbtree.h"
 
 using namespace std;
 using chrono::high_resolution_clock;
@@ -81,7 +82,9 @@ void Case1()
   {
     vector<ULONG> vec = vecs[i];
 
-    std::map<ULONG, ULONG> m;
+    // std::map<ULONG, ULONG> m;
+    rb_tree<ULONG,ULONG> m;
+    
 
     high_resolution_clock::time_point t1 =
         high_resolution_clock::now(); //返回时间戳
@@ -89,7 +92,8 @@ void Case1()
     for (ULONG i = 0; i < vec.size(); i++)
     {
       auto v = vec[i];
-      m[v] = v;
+      m.insert(v,v) ;
+      // m[v] = v;
     }
     high_resolution_clock::time_point t2 =
         high_resolution_clock::now(); //返回时间戳
@@ -115,12 +119,12 @@ void Case1_1()
   {
     vector<ULONG> vec = vecs[i];
 
-    std::map<ULONG, ULONG> m;
+    rb_tree<ULONG,ULONG> m;
 
     for (ULONG i = 0; i < vec.size(); i++)
     {
       auto v = vec[i];
-      m[v] = v;
+      m.insert(v,v);
     }
 
     high_resolution_clock::time_point t1 =
@@ -128,11 +132,15 @@ void Case1_1()
 
     for (auto iter = vec.begin(); iter != vec.end(); iter++)
     {
-      m[*iter];
+      m.get(*iter);
     }
+
+
 
     high_resolution_clock::time_point t2 =
         high_resolution_clock::now(); //返回时间戳
+
+    // cout << "height:" << m.height() << " size: " << m.size << endl; 
 
     tablestr << "|" << (t2 - t1).count() / vec.size();
     // std::cout << "size: " << m.size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;
@@ -424,6 +432,8 @@ void Case5_1()
 
     high_resolution_clock::time_point t2 =
         high_resolution_clock::now(); //返回时间戳
+
+    // cout << "height:" << m.Root->Height + 1<< " size: " << m.Size() << endl; 
 
     tablestr << "|" << (t2 - t1).count() / vec.size();
     // std::cout << "size: " << m.Size() << ", " << (t2 - t1).count() / vec.size() << " ns/op" << std::endl;

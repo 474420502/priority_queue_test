@@ -53,12 +53,12 @@ SBTNode::SBTNode(ULONG init_data, ULONG init_size, SBTNode * init_father) {
 }
  
 SBTNode::~SBTNode() {
-    if (lchild != ZPTR) {
-        delete lchild;
-    }
-    if (rchild != ZPTR) {
-        delete rchild;
-    }
+    // if (lchild != ZPTR) {
+    //     delete lchild;
+    // }
+    // if (rchild != ZPTR) {
+    //     delete rchild;
+    // }
 }
  
 //左旋：将右孩子变为“根结点”（当前子树的根结点），右孩子的左孩子就变成原来的根结点的右孩子

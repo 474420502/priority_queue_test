@@ -72,8 +72,8 @@ public:
 	~IndexTree()
 	{
 		// 递归delete Root
-		this->traverse_delete(this->Root);
-		delete this->Root;
+		// this->traverse_delete(this->Root);
+		// delete this->Root;
 	}
 
 	NODE *Root;

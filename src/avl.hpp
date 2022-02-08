@@ -39,8 +39,8 @@ public:
     ~AVL()
     {
         // 递归delete Root
-        this->traverse_delete(this->Root);
-        delete this->Root;
+        // this->traverse_delete(this->Root);
+        // delete this->Root;
     }
 
 private:
@@ -59,21 +59,21 @@ public:
         }
         else if (key1 < key2)
         {
-            return -1;
+            return 0;
         }
         else
         {
-            return 0;
+            return -1;
         }
     }
 
-    NODE *newNode(TYPE_KEY  key, TYPE_VALUE  value)
+    NODE *newNode(TYPE_KEY  key, TYPE_VALUE  value, NODE* parent)
     {
         NODE *node = new NODE();
         node->Key = key;
         node->Value = value;
         node->Height = 0;
-        node->Parent = NULL;
+        node->Parent = parent;
         return node;
     };
 
@@ -99,7 +99,7 @@ public:
         if (this->size == 0)
         {
             this->size++;
-            this->Root = newNode(key, value);
+            this->Root = newNode(key, value, NULL);
             return true;
         }
 
@@ -108,35 +108,18 @@ public:
         while (true)
         {
             c = this->Compare(key, cur->Key);
-            if (c == -1)
-            {
-                if (cur->Children[0] == NULL)
+            if (c != -1) {
+                if (cur->Children[c] == NULL)
                 {
                     this->size++;
-                    cur->Children[0] = newNode(key, value);
-                    cur->Children[0]->Parent = cur;
+                    cur->Children[c] = newNode(key, value, cur);
                     if (cur->Height == 0)
                     {
                         this->fixPutHeight(cur);
                     }
                     return false;
                 }
-                cur = cur->Children[0];
-            }
-            else if (c == 1)
-            {
-                if (cur->Children[1] == NULL)
-                {
-                    this->size++;
-                    cur->Children[1] = newNode(key, value);
-                    cur->Children[1]->Parent = cur;
-                    if (cur->Height == 0)
-                    {
-                        this->fixPutHeight(cur);
-                    }
-                    return false;
-                }
-                cur = cur->Children[1];
+                cur = cur->Children[c];
             }
             else
             {
@@ -162,35 +145,19 @@ public:
         while (true)
         {
             c = this->Compare(key, cur->Key);
-            if (c == -1)
+            if (c != -1)
             {
-                if (cur->Children[0] == NULL)
+                if (cur->Children[c] == NULL)
                 {
                     this->size++;
-                    cur->Children[0] = newNode(key, value);
-                    cur->Children[0]->Parent = cur;
+                    cur->Children[c] = newNode(key, value, cur);
                     if (cur->Height == 0)
                     {
                         this->fixPutHeight(cur);
                     }
                     return true;
                 }
-                cur = cur->Children[0];
-            }
-            else if (c == 1)
-            {
-                if (cur->Children[1] == NULL)
-                {
-                    this->size++;
-                    cur->Children[1] = newNode(key, value);
-                    cur->Children[1]->Parent = cur;
-                    if (cur->Height == 0)
-                    {
-                        this->fixPutHeight(cur);
-                    }
-                    return true;
-                }
-                cur = cur->Children[1];
+                cur = cur->Children[c];
             }
             else
             {
@@ -217,13 +184,9 @@ private:
 		while (cur != NULL)
 		{
 			int c = this->Compare(key, cur->Key);
-			if (c < 0)
+			if (c != -1)
 			{
-				cur = cur->Children[L];
-			}
-			else if (c > 0)
-			{
-				cur = cur->Children[R];
+				cur = cur->Children[c];
 			}
 			else
 			{

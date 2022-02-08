@@ -48,6 +48,7 @@
         "memory": "cpp",
         "map": "cpp",
         "cstdarg": "cpp",
-        "iterator": "cpp"
+        "iterator": "cpp",
+        "list": "cpp"
     }
 }
