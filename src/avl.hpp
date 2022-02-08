@@ -136,7 +136,7 @@ public:
         if (this->size == 0)
         {
             this->size++;
-            this->Root = newNode(key, value);
+            this->Root = newNode(key, value, nullptr);
             return true;
         }
 
@@ -147,7 +147,7 @@ public:
             c = this->Compare(key, cur->Key);
             if (c != -1)
             {
-                if (cur->Children[c] == NULL)
+                if (cur->Children[c] == nullptr)
                 {
                     this->size++;
                     cur->Children[c] = newNode(key, value, cur);
@@ -181,7 +181,7 @@ private:
 	{
 
 		NODE *cur = this->Root;
-		while (cur != NULL)
+		while (cur != nullptr)
 		{
 			int c = this->Compare(key, cur->Key);
 			if (c != -1)
@@ -193,18 +193,18 @@ private:
 				return cur;
 			}
 		}
-		return NULL;
+		return nullptr;
 	}
 
     inline void traverse_delete(NODE *Current)
     {
-        if (Current->Children[L] != NULL)
+        if (Current->Children[L] != nullptr)
         {
             traverse_delete(Current->Children[L]);
             delete Current->Children[L];
         }
 
-        if (Current->Children[R] != NULL)
+        if (Current->Children[R] != nullptr)
         {
             traverse_delete(Current->Children[R]);
             delete Current->Children[R];
@@ -219,33 +219,33 @@ private:
 
         swap_kv(mov, cur);
 
-        if (mov->Children[l] != NULL)
+        if (mov->Children[l] != nullptr)
         {
             movparent->Children[r] = mov->Children[l];
             movparent->Children[r]->Parent = movparent;
         }
         else
         {
-            movparent->Children[r] = NULL;
+            movparent->Children[r] = nullptr;
         }
 
-        if (mov->Children[r] != NULL)
+        if (mov->Children[r] != nullptr)
         {
             mov->Children[l] = mov->Children[r];
         }
         else
         {
-            mov->Children[l] = NULL;
+            mov->Children[l] = nullptr;
         }
 
-        if (cur->Children[r] != NULL)
+        if (cur->Children[r] != nullptr)
         {
             mov->Children[r] = cur->Children[r];
             mov->Children[r]->Parent = mov;
         }
         else
         {
-            mov->Children[r] = NULL;
+            mov->Children[r] = nullptr;
         }
 
         cur->Children[r] = mov;
@@ -271,23 +271,23 @@ private:
         cur->Children[l] = mov->Children[l];
 
         // 解决mov节点孩子转移的问题
-        if (mov->Children[r] != NULL)
+        if (mov->Children[r] != nullptr)
         {
             mov->Children[l] = mov->Children[r];
         }
         else
         {
-            mov->Children[l] = NULL;
+            mov->Children[l] = nullptr;
         }
 
-        if (cur->Children[r] != NULL)
+        if (cur->Children[r] != nullptr)
         {
             mov->Children[r] = cur->Children[r];
             mov->Children[r]->Parent = mov;
         }
         else
         {
-            mov->Children[r] = NULL;
+            mov->Children[r] = nullptr;
         }
 
         // 连接转移后的节点 由于mov只是与cur交换值,parent不变
@@ -311,7 +311,7 @@ private:
 
     inline int getHeight(NODE *cur)
     {
-        if (cur == NULL)
+        if (cur == nullptr)
         {
             return -1;
         }
@@ -373,7 +373,7 @@ private:
                 }
             }
 
-            if (cur->Parent == NULL || cur->Height < cur->Parent->Height)
+            if (cur->Parent == nullptr || cur->Height < cur->Parent->Height)
             {
                 return;
             };

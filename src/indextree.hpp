@@ -17,7 +17,7 @@ public:
 
 			 
 	for (int i = 2; i < 64; i++) {
-		int root2nsize = 1 << i;
+		int root2nsize = 1 << i ;
 		int bottomsize = root2nsize >> 1;
  
 		for ( int x = 3; x < 64; x++) {
@@ -66,7 +66,7 @@ public:
 	{
 		this->Root = new NODE();
 		this->Root->Size = 1;
-		this->Root->Parent = NULL;
+		this->Root->Parent = nullptr;
 	}
 
 	~IndexTree()
@@ -79,7 +79,7 @@ public:
 	NODE *Root;
 
 public:
-	inline int Compare(TYPE_KEY key1, TYPE_KEY key2)
+	inline int Compare(const TYPE_KEY & key1,const TYPE_KEY & key2)
 	{
 		if (key1 > key2)
 		{
@@ -98,28 +98,28 @@ public:
 	int Size()
 	{
 		NODE *root = this->get_root();
-		if (root != NULL)
+		if (root != nullptr)
 		{
 			return root->Size;
 		}
 		return 0;
 	}
 
-	SLICE *Get(TYPE_KEY key)
+	SLICE *Get(const TYPE_KEY & key)
 	{
 		NODE *cur = this->get_node(key);
-		if (cur != NULL)
+		if (cur != nullptr)
 		{
 			return (SLICE *)cur;
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	void DebugLog()
 	{
 		std::string str;
 		NODE *root = this->get_root();
-		if (root == NULL)
+		if (root == nullptr)
 		{
 			std::cout << str + "nil" << std::endl;
 			return;
@@ -128,11 +128,11 @@ public:
 		std::cout << str << std::endl;
 	}
 
-	bool Set(TYPE_KEY key, TYPE_VALUE value)
+	bool Set(TYPE_KEY & key, TYPE_VALUE & value)
 	{
 
 		NODE *cur = this->get_root();
-		if (cur == NULL)
+		if (cur == nullptr)
 		{
 			this->Root->Children[L] = this->create_default_node(this->Root, key, value);
 			return true;
@@ -143,7 +143,7 @@ public:
 			int c = this->Compare(key, cur->Key);
 			if (c < 0)
 			{
-				if (cur->Children[L] != NULL)
+				if (cur->Children[L] != nullptr)
 				{
 					cur = cur->Children[L];
 				}
@@ -156,7 +156,7 @@ public:
 			}
 			else if (c > 0)
 			{
-				if (cur->Children[R] != NULL)
+				if (cur->Children[R] != nullptr)
 				{
 					cur = cur->Children[R];
 				}
@@ -169,6 +169,7 @@ public:
 			}
 			else
 			{
+				cur->Key = key;
 				cur->Value = value;
 				return false;
 			}
@@ -184,7 +185,7 @@ private:
 		return this->Root->Children[L];
 	}
 
-	inline NODE *create_default_node(NODE *parent, TYPE_KEY key, TYPE_VALUE value)
+	inline NODE *create_default_node(NODE *parent, TYPE_KEY & key, TYPE_VALUE & value)
 	{
 		NODE *node = new NODE();
 		node->Key = key;
@@ -194,11 +195,11 @@ private:
 		return node;
 	}
 
-	inline NODE *get_node(TYPE_KEY key)
+	inline NODE *get_node(const TYPE_KEY & key)
 	{
 
 		NODE *cur = this->get_root();
-		while (cur != NULL)
+		while (cur != nullptr)
 		{
 			int c = this->Compare(key, cur->Key);
 			if (c < 0)
@@ -214,12 +215,12 @@ private:
 				return cur;
 			}
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	void outputfordebug(NODE *node, std::string prefix, bool isTail, std::string *str)
 	{
-		if (node->Children[1] != NULL)
+		if (node->Children[1] != nullptr)
 		{
 			std::string newPrefix(prefix);
 			if (isTail)
@@ -245,7 +246,7 @@ private:
 
 		std::string suffix("(");
 		std::string parentv;
-		if (node->Parent == NULL)
+		if (node->Parent == nullptr)
 		{
 			parentv = "nil";
 		}
@@ -264,7 +265,7 @@ private:
 		k << node->Key;
 		*str += k.str() + suffix + "\n";
 
-		if (node->Children[0] != NULL)
+		if (node->Children[0] != nullptr)
 		{
 			std::string newPrefix(prefix);
 			if (isTail)
@@ -281,13 +282,13 @@ private:
 
 	inline void traverse_delete(NODE *Current)
 	{
-		if (Current->Children[L] != NULL)
+		if (Current->Children[L] != nullptr)
 		{
 			traverse_delete(Current->Children[L]);
 			delete Current->Children[L];
 		}
 
-		if (Current->Children[R] != NULL)
+		if (Current->Children[R] != nullptr)
 		{
 			traverse_delete(Current->Children[R]);
 			delete Current->Children[R];
@@ -295,10 +296,6 @@ private:
 	}
 
  
-
-
-
-
 	inline void fix_put(NODE *cur)
 	{
 
@@ -311,13 +308,8 @@ private:
 
 		int height = 2;
 		int lsize, rsize ;
-		int relations = L;
+ 
 		NODE *parent;
-
-		if (cur->Parent->Children[R] == cur)
-		{
-			relations = R;
-		}
 		cur = cur->Parent;
 
 		while (cur != this->Root)
@@ -325,18 +317,13 @@ private:
 			cur->Size++;
 			parent = cur->Parent;
 
-
 			limit_table::height_limit_size &  limitsize = table.table[height];
-
  
-			// (1<< height) -1 允许的最大size　超过证明高度差超1, 并且有最少, size的空缺并且可以旋转
-			if (cur->Size < limitsize.rootsize)
+			if (cur->Size <= limitsize.rootsize)
 			{
 				lsize = get_child_size(cur->Children[L]);
 				rsize = get_child_size(cur->Children[R]);
-
-				// 右就检测左边
-				if (relations == R)
+				if (rsize > lsize)
 				{
 					if (rsize - lsize >= limitsize.bottomsize)
 					{
@@ -357,15 +344,6 @@ private:
 			}
 
 			height++;
-			if (cur->Parent->Children[R] == cur)
-			{
-				relations = R;
-			}
-			else
-			{
-				relations = L;
-			}
-
 			cur = parent;
 		}
 	}
@@ -381,7 +359,7 @@ private:
 
 	inline int get_child_size(NODE *cur)
 	{
-		if (cur == NULL)
+		if (cur == nullptr)
 		{
 			return 0;
 		}
@@ -431,14 +409,14 @@ private:
 		}
 		mov->Parent = cur->Parent;
 
-		if (movright != NULL)
+		if (movright != nullptr)
 		{
 			cur->Children[L] = movright;
 			movright->Parent = cur;
 		}
 		else
 		{
-			cur->Children[L] = NULL;
+			cur->Children[L] = nullptr;
 		}
 
 		mov->Children[R] = cur;
